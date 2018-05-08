@@ -1,7 +1,8 @@
 #.travis.yml
 
 language: node_js
-
+node_js:
+  - "10.0.0"
 #branches:
 #  only:
 #    - master
