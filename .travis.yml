@@ -28,8 +28,8 @@ before_script:
   - npm install -g @angular/cli
 
 script:
-  - npm run test --watch=false && npm run e2e
-
+  #- npm run test --watch=false && npm run e2e
+  - ./node_modules/@angular/cli/bin/ng test --single-run=true --watch=false
 after_success:
   - ng build --prod && firebase deploy --token $FIREBASE_TOKEN --project tqs-go-nutri
 
