@@ -12,7 +12,7 @@ apt:
   sources:
     - google-chrome
   packages:
-- google-chrome-stable
+    - google-chrome-stable
 
 cache:
   directories:
