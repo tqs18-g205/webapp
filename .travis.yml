@@ -29,8 +29,12 @@ before_script:
 
 script:
   - npm run test --watch=false
-after_success:
-  - ng build --prod && firebase deploy --token $FIREBASE_TOKEN --project tqs-go-nutri
+
+deploy:
+  provider: script
+  script: ng build --prod && firebase deploy --token $FIREBASE_TOKEN --project tqs-go-nutri
+  on:
+    branch: master
 
 #notifications:
 #  email:
