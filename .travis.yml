@@ -15,7 +15,7 @@ script:
   - ng build --prod
 
 after_success:
-  - firebase deploy --token $FIREBASE_TOKEN
+  - firebase deploy --token $FIREBASE_TOKEN --project tqs-go-nutri
 
 #notifications:
 #  email:
