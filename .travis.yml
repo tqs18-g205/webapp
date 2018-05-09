@@ -32,7 +32,7 @@ script:
   
 deploy:
   provider: script
-  script: ng build --prod && firebase deploy --token $FIREBASE_TOKEN --project tqs-go-nutri
+  script: npm install && ng build --prod && firebase deploy --token $FIREBASE_TOKEN --project tqs-go-nutri
   on:
     branch: master
 
