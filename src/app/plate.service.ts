@@ -26,6 +26,6 @@ export class PlateService {
   }
 
   constructor(private http: HttpClient) {
-    this.url = 'http://demo6336625.mockable.io/api';
+    this.url = 'https://demo6336625.mockable.io/api';
   }
 }
