@@ -2,6 +2,22 @@ import { Injectable, NgModule } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
 
+export interface IngredientQuantity {
+  ingredient: Ingredient;
+  quantity: number;
+}
+
+export interface Ingredient {
+  id: number;
+  name: string;
+  calories: number;
+}
+
+export interface Category {
+  id: number;
+  name: string;
+}
+
 export interface Plate {
   id: number;
   name: string;
@@ -9,6 +25,7 @@ export interface Plate {
   image: string;
   calories: number;
   categories: Category[];
+  ingredients: IngredientQuantity[];
 }
 
 export interface Category {
@@ -25,7 +42,11 @@ export class PlateService {
     return this.http.get<Plate[]>(this.url + '/pratos');
   }
 
+  getPlate(id: number): Observable<Plate> {
+    return this.http.get<Plate>(this.url + '/pratos/' + id);
+  }
+
   constructor(private http: HttpClient) {
-    this.url = 'http://demo6336625.mockable.io/api';
+    this.url = 'https://tqsgonutri.mockable.io/api';
   }
 }

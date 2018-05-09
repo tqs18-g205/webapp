@@ -22,3 +22,38 @@
 
   </div>
 </div>
+
+<div ng-if="angular.isUndefined(modal_plate)" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          {{modal_plate.name}}
+          <span class="badge badge-success">{{modal_plate.cost}}€</span>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img class="card-img-top" style="width: 100%; height: 100%; background-position: center center; background-repeat: no-repeat;"
+          src="{{modal_plate.image}}" alt="{{modal_plate.name}}">
+        <hr>
+        <h5>Ingredientes: ({{modal_plate.calories}} kcal)</h5>
+        <p *ngFor="let ingredientquantity of modal_plate.ingredients;">
+          {{ingredientquantity.quantity}} gr. of {{ingredientquantity.ingredient.name}}
+          <span class="badge badge-success">{{ingredientquantity.ingredient.calories}} kcal</span>
+        </p>
+
+        <h5>Categorias:</h5>
+        <p *ngFor="let category of modal_plate.categories;">
+          <span class="badge badge-success">{{category.name}}</span>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-sm btn-secondary" data-dismiss="modal">Fechar</a>
+        <a href="#" class="btn btn-sm btn-success float-right">Adicionar à cesta</a>
+      </div>
+    </div>
+  </div>
+</div>
