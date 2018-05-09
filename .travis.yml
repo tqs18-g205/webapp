@@ -29,14 +29,20 @@ before_script:
 
 script:
   - npm run test --watch=false
-
+  
 deploy:
-  provider: heroku
-  api_key:
-    secure: $HEROKU_KEY
-  app: tqsnutri
+  provider: script
+  script: ng build --prod && firebase deploy --token $FIREBASE_TOKEN --project tqs-go-nutri
   on:
-    repo: tqs18-g205/webapp
+    branch: master
+
+#deploy:
+#  provider: heroku
+#  api_key:
+#    secure: $HEROKU_KEY
+#  app: tqsnutri
+#  on:
+#    repo: tqs18-g205/webapp
 
 #notifications:
 #  email:
