@@ -31,18 +31,12 @@ script:
   - npm run test --watch=false
   - ng build --prod
   
-#deploy:
-#  provider: script
-#  script: npm install && ng build --prod && firebase deploy --token $FIREBASE_TOKEN --project tqs-go-nutri
-#  on:
-#    branch: master
-
 deploy:
-  provider: firebase
-  token:
-    secure: "$FIREBASE_TOKEN"
-  project: "tqs-go-nutri"
-  
+  provider: script
+  script: npm install && ng build --prod && firebase deploy --token $FIREBASE_TOKEN --project tqs-go-nutri
+  on:
+    branch: master
+
 #deploy:
 #  provider: heroku
 #  api_key:
