@@ -15,8 +15,6 @@ export class PlateListComponent implements OnInit {
     this.plate_service.getPlates()
       .subscribe(newplates => {
         this.plates = newplates;
-        this.modal_plate = newplates[0];
-        this.modal_plate.ingredients = [];
       });
   }
 
@@ -25,8 +23,6 @@ export class PlateListComponent implements OnInit {
       .subscribe(newplate => {
         this.modal_plate = newplate;
       });
-      console.log(this.modal_plate);
-    //this.modal_plate = this.sug_plates[indexOfPlate];
   }
 
   ngOnInit() {
