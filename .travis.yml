@@ -37,6 +37,7 @@ before_script:
 script:
   - npm run test --watch=false
   - ng build --prod
+  - sonar-scanner
   
 deploy:
   provider: script
