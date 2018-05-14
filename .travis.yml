@@ -17,6 +17,13 @@ apt:
 cache:
   directories:
     - node_modules
+    
+addons:
+  sonarcloud:
+    organization: "bdomingues-github"
+    token:
+      secure: $SONAR_TOKEN
+
 
 before_install:
   - export CHROME_BIN=chromium-browser
