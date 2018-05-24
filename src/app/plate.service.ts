@@ -1,3 +1,4 @@
+import { Plate } from './plate.service';
 import { Injectable, NgModule } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
@@ -36,17 +37,16 @@ export interface Category {
 @NgModule()
 @Injectable()
 export class PlateService {
-  url: string;
+  readonly api_url = 'https://demo6336625.mockable.io/api';
 
   getPlates(): Observable<Plate[]> {
-    return this.http.get<Plate[]>(this.url + '/pratos');
+    return this.http.get<Plate[]>(this.api_url + '/pratos');
   }
 
   getPlate(id: number): Observable<Plate> {
-    return this.http.get<Plate>(this.url + '/pratos/' + id);
+    return this.http.get<Plate>(this.api_url + '/pratos/' + id);
   }
 
-  constructor(private http: HttpClient) {
-    this.url = 'https://tqsgonutri.mockable.io/api';
-  }
+  constructor(private http: HttpClient) { }
 }
+

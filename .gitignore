@@ -1,5 +1,8 @@
 .DS_STORE
 
+coverage/
+e2e/
+
 /dist/
 bazel-*
 e2e_test.*
