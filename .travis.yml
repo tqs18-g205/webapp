@@ -17,6 +17,13 @@ apt:
 cache:
   directories:
     - node_modules
+    
+addons:
+  sonarcloud:
+    organization: "bdomingues-github"
+    token:
+      secure: $SONAR_TOKEN
+
 
 before_install:
   - export CHROME_BIN=chromium-browser
@@ -28,8 +35,9 @@ before_script:
   - npm install -g @angular/cli
 
 script:
-  - npm run test --watch=false
+  - ng test --code-coverage --watch=false
   - ng build --prod
+  - sonar-scanner
   
 deploy:
   provider: script
