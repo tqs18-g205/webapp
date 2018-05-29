@@ -11,7 +11,9 @@ export class PlateListComponent implements OnInit {
   plates: Plate[] = [];
   modal_plate: Plate;
 
-  constructor(private plate_service: PlateService) {
+  constructor(private plate_service: PlateService) { }
+
+  ngOnInit(): void {
     this.plate_service.getPlates()
       .subscribe(newplates => {
         this.plates = newplates;
@@ -23,9 +25,6 @@ export class PlateListComponent implements OnInit {
       .subscribe(newplate => {
         this.modal_plate = newplate;
       });
-  }
-
-  ngOnInit() {
   }
 
 }
