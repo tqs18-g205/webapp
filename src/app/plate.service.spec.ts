@@ -48,6 +48,20 @@ describe('PlateService', () => {
     });
   });
 
+  describe('#getPlateCategories', () => {
+    it('should return an Observable<Category>', () => {
+
+      service.getPlateCategories().subscribe(categories => {
+        expect(categories).toEqual(DUMMY_PLATE_CATEGORIES);
+      });
+
+      const req = httpMock.expectOne(`${service.api_url}/categorias/pratos`);
+      expect(req.request.method).toBe('GET');
+      req.flush(DUMMY_PLATE_CATEGORIES);
+    });
+  });
+
+
   it('should be created', inject([PlateService], (sservice: PlateService) => {
     expect(sservice).toBeTruthy();
   }));
@@ -137,5 +151,33 @@ const DUMMY_PLATES = [
         id: 3,
         name: 'Carne'
       }]
+  }
+];
+
+
+const DUMMY_PLATE_CATEGORIES = [
+  <Category>{
+    id: 0,
+    name: 'Prato'
+  },
+  <Category>{
+    id: 1,
+    name: 'Japonês'
+  },
+  <Category>{
+    id: 2,
+    name: 'Asiático'
+  },
+  <Category>{
+    id: 3,
+    name: 'Carne'
+  },
+  <Category>{
+    id: 4,
+    name: 'Entrada'
+  },
+  <Category>{
+    id: 5,
+    name: 'Sobremesa'
   }
 ];
