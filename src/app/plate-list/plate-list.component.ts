@@ -60,7 +60,6 @@ export class PlateListComponent implements OnInit {
     this.updateResults();
   }
 
-
   updateResults(): void {
     this.plates_to_show = Array.of(...this.plates);
     if (this.search.term) {
