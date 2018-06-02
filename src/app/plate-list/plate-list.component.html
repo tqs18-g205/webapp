@@ -1,9 +1,42 @@
 <br>
 <div class="row mx-auto" style="width: 80%;">
 
-  <div class="col-sm-12 col-md-12 col-lg-12">
+    <div class="col-sm-12 col-md-12 col-lg-2">
+      <div class="card" data-toggle="tooltip" data-placement="left">
+        <div class="card-header">
+          Pesquisa
+        </div>
+        <div class="card-body">
+          <form class="form-inline">
+            <input #searchBox id="search-box" class="form-control" (keyup)="updateTerm(searchBox.value)" style="width: 100%;" type="search"
+              placeholder="sopa de ..." aria-label="Search">
+          </form>
+        </div>
+        <div class="card-header">
+          Filtros
+          <label (change)="updateFilter()" class="switch float-right">
+            <input type="checkbox" data-toggle="collapse" data-target="#filters">
+            <span class="slider round"></span>
+          </label>
+        </div>
+        <div id="filters" class="collapse">
+          <div class="card-body">
+            Categorias:
+            <div class="btn-group-toggle" data-toggle="buttons" *ngFor="let categorie of categories;">
+              <label (click)="updateCategories(categorie.id)" style="width: 100%" class="btn btn-sm btn-light active">
+                <input type="checkbox" checked autocomplete="off">{{categorie.name}}
+              </label>
+            </div>
+          </div>   
+        </div>
+    
+      </div>
+    </div>
+
+
+  <div class="col-sm-12 col-md-12 col-lg-10">
     <div class="row">
-      <div class="col-sm-12 col-md-12 col-lg-3" *ngFor="let plate of plates;">
+      <div class="col-sm-12 col-md-12 col-lg-4" *ngFor="let plate of plates_to_show;">
         <div class="card" style="margin-bottom: 15%; margin-right: 10%" data-toggle="tooltip" data-placement="left" title="{{plate.description}}">
           <div class="card-header">
             <strong>{{plate.name}}</strong>

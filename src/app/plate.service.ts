@@ -29,10 +29,6 @@ export interface Plate {
   ingredients: IngredientQuantity[];
 }
 
-export interface Category {
-  id: number;
-  name: string;
-}
 
 @NgModule()
 @Injectable()
@@ -45,6 +41,10 @@ export class PlateService {
 
   getPlate(id: number): Observable<Plate> {
     return this.http.get<Plate>(this.api_url + '/pratos/' + id);
+  }
+
+  getPlateCategories(): Observable<Category[]> {
+    return this.http.get<Category[]>(this.api_url + '/categorias/pratos');
   }
 
   constructor(private http: HttpClient) { }
