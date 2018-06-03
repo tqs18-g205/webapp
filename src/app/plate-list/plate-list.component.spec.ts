@@ -5,12 +5,12 @@ import 'rxjs/add/observable/of';
 import { HttpClient } from '@angular/common/http';
 
 import { PlateListComponent } from './plate-list.component';
-import { PlateService, Plate, Category, Ingredient, IngredientQuantity } from '../plate.service';
+import { DataService, Plate, Category, Ingredient, IngredientQuantity } from '../data.service';
 import { stringify } from 'querystring';
 
 describe('PlateListComponent', () => {
   let component: PlateListComponent;
-  let plateService: PlateService;
+  let plateService: DataService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -18,11 +18,11 @@ describe('PlateListComponent', () => {
         PlateListComponent
       ],
       providers: [
-        { provide: PlateService, useClass: PlateServiceMock }
+        { provide: DataService, useClass: DataServiceMock }
       ]
     });
     component = TestBed.createComponent(PlateListComponent).componentInstance;
-    plateService = TestBed.get(PlateService);
+    plateService = TestBed.get(DataService);
     component.ngOnInit();
   });
 
@@ -101,7 +101,7 @@ describe('PlateListComponent', () => {
 
 });
 
-class PlateServiceMock {
+class DataServiceMock {
   public getPlates(): Observable<Plate[]> {
     return Observable.of(DUMMY_PLATES);
   }
@@ -118,43 +118,43 @@ class PlateServiceMock {
 const DUMMY_PLATE_0 =
   <Plate>{
     id: 0,
-    name: 'TOFU KATSU CURRY',
-    cost: 5.99,
-    image: 'https://eatfirst.imgix.net/b7451490-9964-43cd-90be-751349dd7b7f.jpeg',
-    calories: 764,
-    categories: [
+    nome: 'TOFU KATSU CURRY',
+    preco: 5.99,
+    imagem: 'https://eatfirst.imgix.net/b7451490-9964-43cd-90be-751349dd7b7f.jpeg',
+    calorias: 764,
+    categorias: [
       <Category>{
         id: 0,
-        name: 'Prato'
+        nome: 'Prato'
       },
       <Category>{
         id: 1,
-        name: 'Japonês'
+        nome: 'Japonês'
       }],
-    ingredients: [
+    ingredientes: [
       <IngredientQuantity>{
-        ingredient: <Ingredient>{
+        ingrediente: <Ingredient>{
           id: 0,
-          name: 'Tofu',
-          calories: 20
+          nome: 'Tofu',
+          calorias: 20
         },
-        quantity: 500
+        quantidade: 500
     },
       <IngredientQuantity>{
-        ingredient: <Ingredient>{
+        ingrediente: <Ingredient>{
           id: 0,
-          name: 'Onions',
-          calories: 50
+          nome: 'Onions',
+          calorias: 50
         },
-        quantity: 200
+        quantidade: 200
     },
       <IngredientQuantity>{
-        ingredient: <Ingredient>{
+        ingrediente: <Ingredient>{
           id: 0,
-          name: 'Soy Sauce',
-          calories: 70
+          nome: 'Soy Sauce',
+          calorias: 70
         },
-        quantity: 30
+        quantidade: 30
     }
     ]
   };
@@ -162,110 +162,110 @@ const DUMMY_PLATE_0 =
 const DUMMY_PLATES = [
   <Plate>{
     id: 0,
-    name: 'TOFU KATSU CURRY',
-    cost: 5.99,
-    image: 'https://eatfirst.imgix.net/b7451490-9964-43cd-90be-751349dd7b7f.jpeg',
-    calories: 764,
-    categories: [
+    nome: 'TOFU KATSU CURRY',
+    preco: 5.99,
+    imagem: 'https://eatfirst.imgix.net/b7451490-9964-43cd-90be-751349dd7b7f.jpeg',
+    calorias: 764,
+    categorias: [
       <Category>{
         id: 0,
-        name: 'Prato'
+        nome: 'Prato'
       },
       <Category>{
         id: 1,
-        name: 'Japonês'
+        nome: 'Japonês'
       }]
   },
   <Plate>{
     id: 1,
-    name: 'ASIAN BBQ RIBS',
-    cost: 7.99,
-    image: 'https://eatfirst.imgix.net/ce916f40-7ff7-4f27-add0-73160194028c.jpeg',
-    calories: 647,
-    categories: [
+    nome: 'ASIAN BBQ RIBS',
+    preco: 7.99,
+    imagem: 'https://eatfirst.imgix.net/ce916f40-7ff7-4f27-add0-73160194028c.jpeg',
+    calorias: 647,
+    categorias: [
       <Category>{
         id: 0,
-        name: 'Prato'
+        nome: 'Prato'
       },
       <Category>{
         id: 2,
-        name: 'Asiático'
+        nome: 'Asiático'
       },
       <Category>{
         id: 3,
-        name: 'Carne'
+        nome: 'Carne'
       }]
   },
   <Plate>{
     id: 2,
-    name: 'GRILLED MISO CHICKEN',
-    cost: 7.99,
-    image: 'https://eatfirst.imgix.net/7832cd80-b221-4bd1-a28c-5e282508ef6e.jpeg',
-    calories: 663,
-    categories: [
+    nome: 'GRILLED MISO CHICKEN',
+    preco: 7.99,
+    imagem: 'https://eatfirst.imgix.net/7832cd80-b221-4bd1-a28c-5e282508ef6e.jpeg',
+    calorias: 663,
+    categorias: [
       <Category>{
         id: 0,
-        name: 'Prato'
+        nome: 'Prato'
       },
       <Category>{
         id: 2,
-        name: 'Asiático'
+        nome: 'Asiático'
       },
       <Category>{
         id: 3,
-        name: 'Carne'
+        nome: 'Carne'
       }]
   },
   <Plate>{
     id: 3,
-    name: 'NAKED CHICKEN CAESAR',
-    cost: 8.99,
-    image: 'https://eatfirst.imgix.net/8d007ebb-6982-4f17-9a3e-a32362bb8fba.jpeg',
-    calories: 377,
-    categories: [
+    nome: 'NAKED CHICKEN CAESAR',
+    preco: 8.99,
+    imagem: 'https://eatfirst.imgix.net/8d007ebb-6982-4f17-9a3e-a32362bb8fba.jpeg',
+    calorias: 377,
+    categorias: [
       <Category>{
         id: 0,
-        name: 'Prato'
+        nome: 'Prato'
       },
       <Category>{
         id: 3,
-        name: 'Carne'
+        nome: 'Carne'
       }]
   },
   <Plate>{
     id: 4,
-    name: 'POTATO AND EGG SALAD',
-    cost: 2.80,
-    image: 'https://eatfirst.imgix.net/3293d155-546a-44ef-ba01-89b575f11054.jpeg',
-    calories: 225,
-    categories: [
+    nome: 'POTATO AND EGG SALAD',
+    preco: 2.80,
+    imagem: 'https://eatfirst.imgix.net/3293d155-546a-44ef-ba01-89b575f11054.jpeg',
+    calorias: 225,
+    categorias: [
       <Category>{
         id: 4,
-        name: 'Entrada'
+        nome: 'Entrada'
       }]
   },
   <Plate>{
     id: 5,
-    name: 'EDAMAME WITH MALDON SALT',
-    cost: 2.99,
-    image: 'https://eatfirst.imgix.net/26ce83ee-9da2-4898-8bce-909a80c59a36.jpeg',
-    calories: 73,
-    categories: [
+    nome: 'EDAMAME WITH MALDON SALT',
+    preco: 2.99,
+    imagem: 'https://eatfirst.imgix.net/26ce83ee-9da2-4898-8bce-909a80c59a36.jpeg',
+    calorias: 73,
+    categorias: [
       <Category>{
         id: 4,
-        name: 'Entrada'
+        nome: 'Entrada'
       }]
   },
   <Plate>{
     id: 6,
-    name: 'TIRAMISU',
-    cost: 4.99,
-    image: 'https://eatfirst.imgix.net/79f495cc-dd93-40ea-96cf-edfa0cdfce9d.jpeg',
-    calories: 409,
-    categories: [
+    nome: 'TIRAMISU',
+    preco: 4.99,
+    imagem: 'https://eatfirst.imgix.net/79f495cc-dd93-40ea-96cf-edfa0cdfce9d.jpeg',
+    calorias: 409,
+    categorias: [
       <Category>{
         id: 5,
-        name: 'Sobremesa'
+        nome: 'Sobremesa'
       }]
     }
   ];
@@ -274,25 +274,25 @@ const DUMMY_PLATES = [
 const DUMMY_CATEGORIES = [
   <Category>{
     id: 0,
-    name: 'Prato'
+    nome: 'Prato'
   },
   <Category>{
     id: 1,
-    name: 'Japonês'
+    nome: 'Japonês'
   },
   <Category>{
     id: 2,
-    name: 'Asiático'
+    nome: 'Asiático'
   },
   <Category>{
     id: 3,
-    name: 'Carne'
+    nome: 'Carne'
   },
   <Category>{
     id: 4,
-    name: 'Entrada'
+    nome: 'Entrada'
   },
   <Category>{
     id: 5,
-    name: 'Sobremesa'
+    nome: 'Sobremesa'
   }];

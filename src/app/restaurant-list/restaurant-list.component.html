@@ -1,0 +1,109 @@
+<br>
+<div class="row mx-auto" style="width: 80%;">
+
+  <div class="col-sm-12 col-md-12 col-lg-2">
+    <div class="card" data-toggle="tooltip" data-placement="left">
+      <div class="card-header">
+        Pesquisa
+      </div>
+      <div class="card-body">
+        <form class="form-inline">
+          <input #searchBox id="search-box" class="form-control" (keyup)="updateTerm(searchBox.value)" style="width: 100%;" type="search"
+            placeholder="Quinta do ..." aria-label="Search">
+        </form>
+      </div>
+      <div class="card-header">
+        Filtros
+        <label (change)="updateFilter()" class="switch float-right">
+          <input type="checkbox" data-toggle="collapse" data-target="#filters">
+          <span class="slider round"></span>
+        </label>
+      </div>
+      <div id="filters" class="collapse">
+        <div class="card-body">
+          Cozinhas:
+          <div class="btn-group-toggle" data-toggle="buttons" *ngFor="let categorie of categories;">
+            <label (click)="updateCategories(categorie.id)" style="width: 100%" class="btn btn-sm btn-light active">
+              <input type="checkbox" checked autocomplete="off">{{categorie.nome}}
+            </label>
+          </div>
+          Tipos de Entrega:
+          <div class="btn-group-toggle" data-toggle="buttons" *ngFor="let delivery of deliveries;">
+            <label (click)="updateDeliveries(delivery.id)" style="width: 100%" class="btn btn-sm btn-light active">
+              <input type="checkbox" checked autocomplete="off">{{delivery.descricao}}
+            </label>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="col-sm-12 col-md-12 col-lg-10">
+    <div class="row">
+      <div class="col-sm-12 col-md-12 col-lg-4" *ngFor="let restaurant of restaurants_to_show;">
+        <div class="card" style="margin-bottom: 15%; margin-right: 10%" data-toggle="tooltip" data-placement="left">
+          <div class="card-header">
+            <strong>{{restaurant.nome}}</strong>
+            <span class="badge badge-success float-right ">{{restaurant.tipoCozinha.nome}}</span>
+          </div>
+          <div style="position: relative; text-align: center;">
+            <img class="card-img-top" style="width: 100%; height: 20vh; background-position: center center; background-repeat: no-repeat;"
+              src="{{restaurant.imagem}}" alt="{{restaurant.nome}}" data-toggle="modal" (click)="updateModal(restaurant.id)" data-target="#exampleModal">
+            <div style="position: absolute; bottom: 10px; right: 10px;">
+              <a href="#" class="btn btn-sm btn-success float-right"> Reservar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          <span class="float">{{modal_restaurant?.nome}}</span>
+          <span class="badge badge-success float-right">{{modal_restaurant?.tipoCozinha?.nome}}</span>
+        </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <img class="card-img-top" style="width: 100%; height: 50vh; background-position: center center; background-repeat: no-repeat;"
+          src="{{modal_restaurant?.imagem}}" alt="{{modal_restaurant?.nome}}">
+        <hr>
+          <div class="row">
+            <div class="col-lg-12">
+              <h5>Endereço:</h5>
+            </div>
+            <div class="col-lg-12" *ngFor="let address of modal_restaurant?.moradas;">
+                <span>{{address}}</span>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-sm-8 col-md-6 col-lg-4">
+              <h5>Tipos de Entrega:</h5>
+            </div>
+            <div class="col-sm-6 col-md-4 col-lg-2" *ngFor="let delivery of modal_restaurant?.tiposEntrega;">
+              <h5>
+                <span class="badge badge-success ">{{delivery.descricao}}</span>
+              </h5>
+            </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-sm btn-secondary" data-dismiss="modal">Fechar</a>
+        <a href="#" class="btn btn-sm btn-success float-right">Reservar</a>
+      </div>
+    </div>
+  </div>
+</div>
