@@ -24,7 +24,7 @@
             Categorias:
             <div class="btn-group-toggle" data-toggle="buttons" *ngFor="let categorie of categories;">
               <label (click)="updateCategories(categorie.id)" style="width: 100%" class="btn btn-sm btn-light active">
-                <input type="checkbox" checked autocomplete="off">{{categorie.name}}
+                <input type="checkbox" checked autocomplete="off">{{categorie.nome}}
               </label>
             </div>
           </div>   
@@ -37,14 +37,14 @@
   <div class="col-sm-12 col-md-12 col-lg-10">
     <div class="row">
       <div class="col-sm-12 col-md-12 col-lg-4" *ngFor="let plate of plates_to_show;">
-        <div class="card" style="margin-bottom: 15%; margin-right: 10%" data-toggle="tooltip" data-placement="left" title="{{plate.description}}">
+        <div class="card" style="margin-bottom: 15%; margin-right: 10%" data-toggle="tooltip" data-placement="left">
           <div class="card-header">
-            <strong>{{plate.name}}</strong>
-            <span class="badge badge-success float-right ">{{plate.cost}}€</span>
+            <strong>{{plate.nome}}</strong>
+            <span class="badge badge-success float-right ">{{plate.preco}}€</span>
           </div>
           <div style="position: relative; text-align: center;">
             <img class="card-img-top" style="width: 100%; height: 20vh; background-position: center center; background-repeat: no-repeat;"
-              src="{{plate.image}}" alt="{{plate.name}}" data-toggle="modal" (click)="updateModal(plate.id)" data-target="#exampleModal">
+              src="{{plate.imagem}}" alt="{{plate.nome}}" data-toggle="modal" (click)="updateModal(plate.id)" data-target="#exampleModal">
             <div style="position: absolute; bottom: 10px; right: 10px;">
               <a href="#" class="btn btn-sm btn-success float-right"> Adicionar à cesta</a>
             </div>
@@ -63,8 +63,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">
-          {{modal_plate?.name}}
-          <span class="badge badge-success">{{modal_plate?.cost}}€</span>
+          {{modal_plate?.nome}}
+          <span class="badge badge-success">{{modal_plate?.preco}}€</span>
         </h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
@@ -72,18 +72,18 @@
       </div>
       <div class="modal-body">
         <img class="card-img-top" style="width: 100%; height: 50vh; background-position: center center; background-repeat: no-repeat;"
-          src="{{modal_plate?.image}}" alt="{{modal_plate?.name}}">
+          src="{{modal_plate?.imagem}}" alt="{{modal_plate?.nome}}">
         <hr>
-        <h5>Ingredientes: ({{modal_plate?.calories}} kcal)</h5>
-        <p *ngFor="let ingredientquantity of modal_plate?.ingredients;">
-          - {{ingredientquantity?.quantity}} gr. of {{ingredientquantity?.ingredient.name}} ({{ingredientquantity?.ingredient.calories}}
+        <h5>Ingredientes: ({{modal_plate?.calorias}} kcal)</h5>
+        <p *ngFor="let ingredientquantity of modal_plate?.ingredientes;">
+          - {{ingredientquantity?.quantidade}} gr. of {{ingredientquantity?.ingrediente.nome}} ({{ingredientquantity?.ingrediente.calorias}}
           kcal)
       
           <h5>Categorias:</h5>
           <div class="row">
-            <div class="col-sm-6 col-md-4 col-lg-2" *ngFor="let category of modal_plate?.categories;">
+            <div class="col-sm-6 col-md-4 col-lg-2" *ngFor="let category of modal_plate?.categorias;">
               <h3>
-                <span class="badge badge-success">{{category.name}}</span>
+                <span class="badge badge-success">{{category.nome}}</span>
               </h3>
             </div>
           </div>

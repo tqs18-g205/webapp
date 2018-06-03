@@ -9,8 +9,8 @@ export class NavbarComponent implements OnInit {
 
   name = 'GoNutri';
   pages = [
-    { name: 'Pratos Surgeridos', link: 'plates' },
-    { name: 'Todos os Pratos', link: 'plates' }];
+    { name: 'Todos os Pratos', link: 'plates' },
+    { name: 'Todos os Restaurantes', link: 'restaurants' }];
 
   constructor() { }
 

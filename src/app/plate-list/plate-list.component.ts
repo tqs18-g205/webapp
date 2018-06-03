@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PlateService, Plate, Category } from './../plate.service';
+import { DataService, Plate, Category } from './../data.service';
 
 @Component({
   selector: 'app-plate-list',
@@ -19,7 +19,7 @@ export class PlateListComponent implements OnInit {
     categories: []
   };
 
-  constructor(private plate_service: PlateService) { }
+  constructor(private plate_service: DataService) { }
 
   ngOnInit(): void {
     this.plate_service.getPlates()
@@ -64,14 +64,14 @@ export class PlateListComponent implements OnInit {
     this.plates_to_show = Array.of(...this.plates);
     if (this.search.term) {
       this.plates_to_show = this.plates_to_show.filter(
-        plate => plate.name.toLowerCase().includes(this.search.term.toLowerCase()));
+        plate => plate.nome.toLowerCase().includes(this.search.term.toLowerCase()));
     }
 
     if (this.search.on) {
       this.plates_to_show = this.plates_to_show.filter(
         plate => this.intersect(
           this.search.categories,
-          plate.categories.map(({ id }) => id) ));
+          plate.categorias.map(({ id }) => id) ));
     }
   }
 

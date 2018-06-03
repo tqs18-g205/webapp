@@ -10,20 +10,22 @@ import { PlateListComponent } from './plate-list/plate-list.component';
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 
-import { HttpClientModule } from '@angular/common/http'; 
+import { HttpClientModule } from '@angular/common/http';
 
-import { PlateService } from './plate.service';
+import { DataService } from './data.service';
+import { RestaurantListComponent } from './restaurant-list/restaurant-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    PlateListComponent
+    PlateListComponent,
+    RestaurantListComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    PlateService,
+    DataService,
     BrowserAnimationsModule,
     AppRoutingModule,
     MatSliderModule,
