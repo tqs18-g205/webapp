@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService, Restaurant, Category, Delivery } from './../data.service';
+import { UtilitiesService } from './../utilities.service';
 
 @Component({
   selector: 'app-restaurant-list',
@@ -9,12 +10,11 @@ import { DataService, Restaurant, Category, Delivery } from './../data.service';
 export class RestaurantListComponent implements OnInit {
 
   restaurants: Restaurant[] = [];
-
   modal_restaurant: Restaurant;
-  restaurants_to_show: Restaurant[] = [];
 
+  restaurants_to_show: Restaurant[] = [];
   categories: Category[] = [];
-  deliveries: Delivery[];
+  deliveries: Delivery[] = [];
   search = {
     term: '',
     on: false,
@@ -22,15 +22,11 @@ export class RestaurantListComponent implements OnInit {
     deliveries: []
   };
 
-  constructor(private restaurant_service: DataService) { }
+  constructor(private restaurant_service: DataService, private utils: UtilitiesService) { }
 
   ngOnInit(): void {
     this.restaurant_service.getRestaurants()
       .subscribe(restaurants => {
-        restaurants.forEach(function addImage(rest: Restaurant) {
-          rest.imagem = 'https://cdn3.igogo.pt/fotos/10/56/restaurante-o-moliceiro-3-1.jpg';
-          rest.tiposEntrega = [<Delivery>{ id: 1, descricao: 'Take Away' }];
-        });
         this.restaurants = restaurants;
         this.restaurants_to_show = restaurants;
       });
@@ -49,9 +45,6 @@ export class RestaurantListComponent implements OnInit {
   updateModal(restaurant_id: number): void {
     this.restaurant_service.getRestaurant(restaurant_id)
       .subscribe(newrestaurant => {
-        newrestaurant.imagem = 'https://cdn3.igogo.pt/fotos/10/56/restaurante-o-moliceiro-3-1.jpg';
-        newrestaurant.tiposEntrega = [<Delivery>{id: 1, descricao: 'Take Away'}];
-        newrestaurant.moradas = ['Rua da qui', 'Rua de tras'];
         this.modal_restaurant = newrestaurant;
       });
   }
@@ -84,36 +77,23 @@ export class RestaurantListComponent implements OnInit {
     this.updateResults();
   }
 
-  updateResults(): void {
+  updateResults() {
     this.restaurants_to_show = Array.of(...this.restaurants);
     if (this.search.term) {
       this.restaurants_to_show = this.restaurants_to_show.filter(
         restaurant => restaurant.nome.toLowerCase().includes(this.search.term.toLowerCase()));
     }
-
     if (this.search.on) {
       this.restaurants_to_show = this.restaurants_to_show.filter(
         restaurant => this.search.categories.includes(restaurant.tipoCozinha.id)
       );
 
       this.restaurants_to_show = this.restaurants_to_show.filter(
-        restaurant => this.intersect(
+        restaurant => this.utils.intersect(
           this.search.deliveries,
           restaurant.tiposEntrega.map(({ id }) => id))
         );
     }
   }
-
-  intersect(array1: any[], array2: any[]): boolean {
-    for (let i = 0; i < array1.length; i++) {
-      for (let j = 0; j < array2.length; j++) {
-        if (JSON.stringify(array1[i]) === JSON.stringify(array2[j])) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
 
 }

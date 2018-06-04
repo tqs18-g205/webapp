@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService, Plate, Category } from './../data.service';
+import { UtilitiesService } from './../utilities.service';
 
 @Component({
   selector: 'app-plate-list',
@@ -19,7 +20,7 @@ export class PlateListComponent implements OnInit {
     categories: []
   };
 
-  constructor(private plate_service: DataService) { }
+  constructor(private plate_service: DataService, private utils: UtilitiesService) { }
 
   ngOnInit(): void {
     this.plate_service.getPlates()
@@ -69,22 +70,10 @@ export class PlateListComponent implements OnInit {
 
     if (this.search.on) {
       this.plates_to_show = this.plates_to_show.filter(
-        plate => this.intersect(
+        plate => this.utils.intersect(
           this.search.categories,
           plate.categorias.map(({ id }) => id) ));
     }
   }
-
-  intersect(array1: any[], array2: any[]): boolean {
-    for (let i = 0; i < array1.length; i++) {
-      for (let j = 0; j < array2.length; j++) {
-        if (JSON.stringify(array1[i]) === JSON.stringify(array2[j])) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
 
 }

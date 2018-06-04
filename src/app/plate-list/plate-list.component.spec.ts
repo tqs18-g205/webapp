@@ -1,3 +1,4 @@
+import { UtilitiesService } from './../utilities.service';
 import { environment } from './../../environments/environment';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
@@ -18,7 +19,8 @@ describe('PlateListComponent', () => {
         PlateListComponent
       ],
       providers: [
-        { provide: DataService, useClass: DataServiceMock }
+        { provide: DataService, useClass: DataServiceMock },
+        UtilitiesService
       ]
     });
     component = TestBed.createComponent(PlateListComponent).componentInstance;
@@ -87,16 +89,6 @@ describe('PlateListComponent', () => {
       component.updateCategories(cat);
     }
     expect(component.plates_to_show.length).toEqual(2);
-  });
-
-  it('should have no intersection between [0, 1, 2] and [3, 4, 5])', () => {
-    component.intersect([0, 1, 2], [3, 4, 5]);
-    expect(component.intersect([0, 1, 2], [3, 4, 5])).toBeFalsy();
-  });
-
-  it('should have some intersection between [0, 1, 2] and [2, 4, 5])', () => {
-    component.intersect([0, 1, 2], [2, 4, 5]);
-    expect(component.intersect([0, 1, 2], [2, 4, 5])).toBeTruthy();
   });
 
 });
