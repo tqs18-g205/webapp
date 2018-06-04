@@ -1,3 +1,4 @@
+import { UtilitiesService } from './../utilities.service';
 import { environment } from './../../environments/environment';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
@@ -11,6 +12,7 @@ import { stringify } from 'querystring';
 describe('PlateListComponent', () => {
   let component: RestaurantListComponent;
   let dataService: DataService;
+  let fixture: ComponentFixture<RestaurantListComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -18,10 +20,12 @@ describe('PlateListComponent', () => {
         RestaurantListComponent
       ],
       providers: [
-        { provide: DataService, useClass: DataServiceMock }
+        { provide: DataService, useClass: DataServiceMock },
+        UtilitiesService
       ]
     });
-    component = TestBed.createComponent(RestaurantListComponent).componentInstance;
+    fixture = TestBed.createComponent(RestaurantListComponent);
+    component = fixture.componentInstance;
     dataService = TestBed.get(DataService);
     component.ngOnInit();
   });
@@ -89,15 +93,23 @@ describe('PlateListComponent', () => {
     expect(component.restaurants_to_show).toEqual([]);
   });
 
-
-  it('should have no intersection between [0, 1, 2] and [3, 4, 5])', () => {
-    component.intersect([0, 1, 2], [3, 4, 5]);
-    expect(component.intersect([0, 1, 2], [3, 4, 5])).toBeFalsy();
+  it('should update the results (show "Portuguese" kitchen only)', () => {
+    expect(component.restaurants_to_show.length).toEqual(3);
+    spyOn(component, 'updateCategories').and.callThrough();
+    component.updateFilter();
+    component.updateCategories(2);
+    component.updateCategories(3);
+    expect(component.updateCategories).toHaveBeenCalledTimes(2);
+    expect(component.restaurants_to_show.length).toEqual(1);
   });
 
-  it('should have some intersection between [0, 1, 2] and [2, 4, 5])', () => {
-    component.intersect([0, 1, 2], [2, 4, 5]);
-    expect(component.intersect([0, 1, 2], [2, 4, 5])).toBeTruthy();
+  it('should update the results (show "Take Away" deliveries only)', () => {
+    expect(component.restaurants_to_show.length).toEqual(3);
+    spyOn(component, 'updateDeliveries').and.callThrough();
+    component.updateFilter();
+    component.updateDeliveries(2);
+    expect(component.updateCategories).toHaveBeenCalled();
+    expect(component.restaurants_to_show.length).toEqual(1);
   });
 
 });

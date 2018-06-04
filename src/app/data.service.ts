@@ -47,7 +47,7 @@ export interface Restaurant {
 @NgModule()
 @Injectable()
 export class DataService {
-  readonly api_url = 'http://tqsnutri.herokuapp.com/api';
+  readonly api_url = 'https://tqsnutri.herokuapp.com/api';
 
   getPlates(): Observable<Plate[]> {
     return this.http.get<Plate[]>(this.api_url + '/pratos');
