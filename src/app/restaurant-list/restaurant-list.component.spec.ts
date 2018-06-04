@@ -75,12 +75,12 @@ describe('PlateListComponent', () => {
   it('should update deliveries and the results', () => {
     spyOn(component, 'updateResults');
     expect(stringify(component.search.deliveries)).toEqual(stringify([1, 2]));
-    component.updateDeliveries(2);
+    component.updateDeliveries(1);
     expect(component.updateResults).toHaveBeenCalled();
-    expect(stringify(component.search.deliveries)).toEqual(stringify([1]));
-    component.updateDeliveries(2);
+    expect(stringify(component.search.deliveries)).toEqual(stringify([2]));
+    component.updateDeliveries(1);
     expect(component.updateResults).toHaveBeenCalled();
-    expect(stringify(component.search.deliveries)).toEqual(stringify([1, 2]));
+    expect(stringify(component.search.deliveries)).toEqual(stringify([2, 1]));
   });
 
   it('should update the results (show all)', () => {
@@ -108,8 +108,8 @@ describe('PlateListComponent', () => {
     spyOn(component, 'updateDeliveries').and.callThrough();
     component.updateFilter();
     component.updateDeliveries(2);
-    expect(component.updateCategories).toHaveBeenCalled();
-    expect(component.restaurants_to_show.length).toEqual(1);
+    expect(component.updateDeliveries).toHaveBeenCalled();
+    expect(component.restaurants_to_show.length).toEqual(2);
   });
 
 });

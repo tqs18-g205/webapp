@@ -13,6 +13,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 
 import { DataService } from './data.service';
+import { UtilitiesService } from './utilities.service';
 import { RestaurantListComponent } from './restaurant-list/restaurant-list.component';
 
 @NgModule({
@@ -26,6 +27,7 @@ import { RestaurantListComponent } from './restaurant-list/restaurant-list.compo
     BrowserModule,
     HttpClientModule,
     DataService,
+    UtilitiesService,
     BrowserAnimationsModule,
     AppRoutingModule,
     MatSliderModule,

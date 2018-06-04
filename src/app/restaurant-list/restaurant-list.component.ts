@@ -27,10 +27,6 @@ export class RestaurantListComponent implements OnInit {
   ngOnInit(): void {
     this.restaurant_service.getRestaurants()
       .subscribe(restaurants => {
-        restaurants.forEach(function addImage(rest: Restaurant) {
-          rest.imagem = 'https://cdn3.igogo.pt/fotos/10/56/restaurante-o-moliceiro-3-1.jpg';
-          rest.tiposEntrega = [<Delivery>{ id: 1, descricao: 'Take Away' }];
-        });
         this.restaurants = restaurants;
         this.restaurants_to_show = restaurants;
       });
@@ -49,9 +45,6 @@ export class RestaurantListComponent implements OnInit {
   updateModal(restaurant_id: number): void {
     this.restaurant_service.getRestaurant(restaurant_id)
       .subscribe(newrestaurant => {
-        newrestaurant.imagem = 'https://cdn3.igogo.pt/fotos/10/56/restaurante-o-moliceiro-3-1.jpg';
-        newrestaurant.tiposEntrega = [<Delivery>{id: 1, descricao: 'Take Away'}];
-        newrestaurant.moradas = ['Rua da qui', 'Rua de tras'];
         this.modal_restaurant = newrestaurant;
       });
   }
