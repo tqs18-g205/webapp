@@ -1,4 +1,6 @@
+import { Client, Plate } from './../_models';
 import { Component, OnInit } from '@angular/core';
+import { DataService } from '../_services';
 
 @Component({
   selector: 'app-navbar',
@@ -12,9 +14,21 @@ export class NavbarComponent implements OnInit {
     { name: 'Todos os Pratos', link: 'plates' },
     { name: 'Todos os Restaurantes', link: 'restaurants' }];
 
-  constructor() { }
+  client: Client;
+  cart: Map<Plate, number> = new Map;
+
+  constructor(private dataService: DataService) { }
 
   ngOnInit() {
+    this.dataService.getCurrentClient().subscribe(
+      currUser => { this.client = currUser; }
+      );
+    this.cart = this.dataService.getCurrentCart();
+  }
+
+  logout() {
+    this.dataService.logout();
+    window.location.href = '/';
   }
 
 }

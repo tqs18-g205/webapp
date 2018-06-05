@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService, Restaurant, Category, Delivery } from './../data.service';
-import { UtilitiesService } from './../utilities.service';
+import { DataService, UtilitiesService } from './../_services';
+import { Restaurant, Cooking, Delivery } from './../_models';
 
 @Component({
   selector: 'app-restaurant-list',
@@ -13,7 +13,7 @@ export class RestaurantListComponent implements OnInit {
   modal_restaurant: Restaurant;
 
   restaurants_to_show: Restaurant[] = [];
-  categories: Category[] = [];
+  categories: Cooking[] = [];
   deliveries: Delivery[] = [];
   search = {
     term: '',

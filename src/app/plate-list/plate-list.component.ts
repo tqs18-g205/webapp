@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService, Plate, Category } from './../data.service';
-import { UtilitiesService } from './../utilities.service';
+import { DataService, UtilitiesService } from './../_services';
+import { Plate, PlateCategory } from './../_models';
 
 @Component({
   selector: 'app-plate-list',
@@ -13,7 +13,7 @@ export class PlateListComponent implements OnInit {
   modal_plate: Plate;
 
   plates_to_show: Plate[] = [];
-  categories: Category[] = [];
+  categories: PlateCategory[] = [];
   search = {
     term: '',
     on: false,

@@ -85,7 +85,7 @@
               <h5>Endereço:</h5>
             </div>
             <div class="col-lg-12" *ngFor="let address of modal_restaurant?.moradas;">
-                <span>{{address}}</span>
+                <span>{{address.rua}}, {{address.localidade}} ({{address.distrito}}) </span>
             </div>
           </div>
           <hr>

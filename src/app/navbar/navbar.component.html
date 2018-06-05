@@ -15,6 +15,12 @@
         </a>
       </li>
     </ul>
-    
+
+    <a *ngIf="!client" class="nav-link btn btn-sm btn-light" href="/login">Login</a>
+    <a *ngIf="client" class="nav-link btn btn-sm btn-light" (click)="logout()">Logout</a>
+    <a *ngIf="client" class="nav-link btn btn-sm btn-light" href="/">{{ client.nome }}</a>
+
+    <a *ngIf="cart" class="nav-link btn btn-sm btn-success" href="/cart">Cart ({{ cart.size }} items)</a>
+
   </div>
 </nav>
