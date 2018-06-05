@@ -1,0 +1,20 @@
+<br>
+<div class="row mx-auto" style="width: 80%;">
+  <div class="col-sm-12 col-md-12 col-lg-10">
+    <div *ngIf="reservations" class="row">
+      <div class="col-sm-12 col-md-12 col-lg-4" *ngFor="let res of reservations;">
+        <div class="card" style="margin-bottom: 15%; margin-right: 10%" data-toggle="tooltip" data-placement="left">
+          <div class="card-header">
+            <strong>{{res?.restaurante?.nome}}</strong>
+          </div>
+            <p><strong>Morada:</strong> {{res?.restaurante?.morada?.rua + ', ' + res?.restaurante?.morada?.localidade 
+              + ', ' + res?.restaurante?.morada?.distrito}}</p>
+            <p><strong>Data:</strong> {{res?.data}}</p>
+            <p><strong>Hora:</strong> {{res?.time}}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
