@@ -9,8 +9,8 @@ import { RegisterComponent } from './register/register.component';
 const routes: Routes = [
   { path: '', redirectTo: '/plates', pathMatch: 'full' },
   { path: 'plates', component: PlateListComponent },
-  { path: 'restaurants', component: RestaurantListComponent,
-    canActivate: [AuthGuard] },
+  { path: 'restaurants', component: RestaurantListComponent },
+    // canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent }
 ];
