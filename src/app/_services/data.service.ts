@@ -72,7 +72,7 @@ export class DataService {
     return this.http.post(this.api_url + '/clientes', client);
   }
 
-  getCurrentClient() {
+  getCurrentClient(): Observable<Client> {
     const userId = localStorage.getItem('currentUser');
     if (userId) {
       return this.getClient(+userId);
@@ -80,8 +80,16 @@ export class DataService {
     return;
   }
 
-  getCurrentCart() {
-    return <Map<Plate, number>>JSON.parse(localStorage.getItem('currentCart'));
+  getCurrentCart(): Map<number, number> {
+    let cart = <Map<number, number>>JSON.parse(localStorage.getItem('currentCart'));
+    if (!cart) {
+      cart = new Map<number, number>();
+    }
+    return cart;
+  }
+
+  setCurrentCart(cart: Map<number, number>) {
+    localStorage.setItem('currentCart', JSON.stringify(cart));
   }
 
   getHeaders() {
@@ -93,11 +101,12 @@ export class DataService {
     return new HttpHeaders();
   }
 
-  constructor(private http: HttpClient) {
-    if (localStorage.getItem('currentCart')) {
-      const cart: Map<Plate, number> = new Map;
-      cart.set(<Plate>{nome: 'ola'}, 2);
-      localStorage.setItem('currentCart', JSON.stringify(cart));
-    }
+  purchase() {
+    const client_id: number = +localStorage.getItem('currentUser');
+    return this.http.post(this.api_url + '/clientes/' + client_id + '/encomendas',
+      { tipoEntrega: 1, cliente: client_id, pratos: this.getCurrentCart()},
+      { headers: this.getHeaders() });
   }
+
+  constructor(private http: HttpClient) { }
 }

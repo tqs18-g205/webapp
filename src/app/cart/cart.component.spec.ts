@@ -7,23 +7,23 @@ import { HttpClient } from '@angular/common/http';
 import { DataService, UtilitiesService } from './../_services';
 import { Plate, PlateCategory, Ingredient, IngredientQuantity } from './../_models';
 import { stringify } from 'querystring';
-import { LoginComponent } from './login.component';
+import { CartComponent } from './cart.component';
 
 describe('LoginComponent', () => {
-  let component: LoginComponent;
+  let component: CartComponent;
   let plateService: DataService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        LoginComponent
+        CartComponent
       ],
       providers: [
         { provide: DataService, useClass: DataServiceMock },
         UtilitiesService
       ]
     });
-    component = TestBed.createComponent(LoginComponent).componentInstance;
+    component = TestBed.createComponent(CartComponent).componentInstance;
     plateService = TestBed.get(DataService);
     component.ngOnInit();
   });
@@ -36,11 +36,6 @@ describe('LoginComponent', () => {
 
 
 class DataServiceMock {
-
-  logout() {
-    return;
-  }
-
   getCurrentCart() {
     return new Map<number, number>();
   }
