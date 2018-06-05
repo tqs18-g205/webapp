@@ -23,6 +23,7 @@ export class PlateListComponent implements OnInit {
   constructor(private plate_service: DataService, private utils: UtilitiesService) { }
 
   ngOnInit(): void {
+    console.log('cart', this.plate_service.getCurrentCart());
     this.plate_service.getPlates()
       .subscribe(plates => {
         this.plates = plates;
@@ -74,6 +75,16 @@ export class PlateListComponent implements OnInit {
           this.search.categories,
           plate.categorias.map(({ id }) => id) ));
     }
+  }
+
+  addToCart(plate_id: number) {
+    const cart: Map<number, number> = this.plate_service.getCurrentCart();
+    if (!cart[plate_id]) {
+      cart[plate_id] = 0;
+    }
+    cart[plate_id] = cart[plate_id] + 1;
+    this.plate_service.setCurrentCart(cart);
+    alert('Plate added to the cart.');
   }
 
 }

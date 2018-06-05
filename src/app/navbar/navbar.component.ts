@@ -15,15 +15,24 @@ export class NavbarComponent implements OnInit {
     { name: 'Todos os Restaurantes', link: 'restaurants' }];
 
   client: Client;
-  cart: Map<Plate, number> = new Map;
+  itemsInCart = 0;
 
   constructor(private dataService: DataService) { }
 
   ngOnInit() {
-    this.dataService.getCurrentClient().subscribe(
-      currUser => { this.client = currUser; }
+    const client = this.dataService.getCurrentClient();
+    if (client) {
+      client.subscribe(
+        currUser => { this.client = currUser; }
       );
-    this.cart = this.dataService.getCurrentCart();
+    }
+
+    const cart: Map<number, number> = this.dataService.getCurrentCart();
+    for (let i = 1; i < 20; i++) {
+      if (cart[i]) {
+        this.itemsInCart += cart[i];
+      }
+    }
   }
 
   logout() {

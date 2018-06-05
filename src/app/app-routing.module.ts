@@ -1,3 +1,4 @@
+import { CartComponent } from './cart/cart.component';
 import { AuthGuard } from './auth.guard';
 import { LoginComponent } from './login/login.component';
 import { NgModule } from '@angular/core';
@@ -10,9 +11,10 @@ const routes: Routes = [
   { path: '', redirectTo: '/plates', pathMatch: 'full' },
   { path: 'plates', component: PlateListComponent },
   { path: 'restaurants', component: RestaurantListComponent },
-    // canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent }
+  { path: 'register', component: RegisterComponent },
+  { path: 'cart', component: CartComponent, canActivate: [AuthGuard] },
+  { path: 'client', component: CartComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
