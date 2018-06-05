@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PlateListComponent } from './plate-list/plate-list.component';
 import { RestaurantListComponent } from './restaurant-list/restaurant-list.component';
 import { RegisterComponent } from './register/register.component';
+import { ReservationListComponent } from './reservation-list/reservation-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/plates', pathMatch: 'full' },
