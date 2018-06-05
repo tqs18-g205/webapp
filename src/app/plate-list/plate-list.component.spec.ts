@@ -105,6 +105,12 @@ class DataServiceMock {
   public getPlateCategories(plate_id: number): Observable<PlateCategory[]> {
     return Observable.of(DUMMY_CATEGORIES);
   }
+
+  getCurrentCart() {
+    return new Map<number, number>();
+  }
+
+  setCurrentCart() { }
 }
 
 const DUMMY_PLATE_0 =

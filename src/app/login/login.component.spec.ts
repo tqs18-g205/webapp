@@ -36,12 +36,13 @@ describe('LoginComponent', () => {
 
 
 class DataServiceMock {
-  public getPlates(): Observable<Plate[]> {
-    return Observable.of(DUMMY_PLATES);
-  }
 
   logout() {
     return;
+  }
+
+  getCurrentCart() {
+    return new Map<number, number>();
   }
 
 }
