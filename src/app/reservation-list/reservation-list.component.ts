@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService, UtilitiesService } from './../_services';
+import { DataService } from './../_services';
 import { Restaurant, Reservation, Client } from './../_models';
 
 @Component({
@@ -10,9 +10,8 @@ import { Restaurant, Reservation, Client } from './../_models';
 export class ReservationListComponent implements OnInit {
 
   reservations: Reservation[];
-  //user: Client;
 
-  constructor(private reservation_service: DataService, private utils: UtilitiesService) { }
+  constructor(private reservation_service: DataService) { }
 
   ngOnInit() {
     const userId = localStorage.getItem('currentUser');
