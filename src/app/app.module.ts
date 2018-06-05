@@ -19,7 +19,7 @@ import { RestaurantListComponent } from './restaurant-list/restaurant-list.compo
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { CartComponent } from './cart/cart.component';
-import { ReservationListComponent } from './reservation-list/reservation-list.component';
+import { ClientComponent } from './client/client.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import { ReservationListComponent } from './reservation-list/reservation-list.co
     LoginComponent,
     RegisterComponent,
     CartComponent,
-    ReservationListComponent
+    ClientComponent
   ],
   imports: [
     BrowserModule,

@@ -5,25 +5,25 @@ import 'rxjs/add/observable/of';
 import { HttpClient } from '@angular/common/http';
 
 import { DataService, UtilitiesService } from './../_services';
-import { Plate, PlateCategory, Ingredient, IngredientQuantity } from './../_models';
+import { Plate, PlateCategory, Ingredient, IngredientQuantity, Reservation, Order, Client } from './../_models';
 import { stringify } from 'querystring';
-import { LoginComponent } from './login.component';
+import { ClientComponent } from './client.component';
 
-describe('LoginComponent', () => {
-  let component: LoginComponent;
+describe('ClientComponent', () => {
+  let component: ClientComponent;
   let plateService: DataService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        LoginComponent
+        ClientComponent
       ],
       providers: [
         { provide: DataService, useClass: DataServiceMock },
         UtilitiesService
       ]
     });
-    component = TestBed.createComponent(LoginComponent).componentInstance;
+    component = TestBed.createComponent(ClientComponent).componentInstance;
     plateService = TestBed.get(DataService);
     component.ngOnInit();
   });
@@ -36,14 +36,22 @@ describe('LoginComponent', () => {
 
 
 class DataServiceMock {
-
-  logout() {
-    return;
-  }
-
   getCurrentCart() {
     return new Map<number, number>();
   }
+
+  getReservations(id: number): Observable<Reservation[]> {
+    return Observable.of(null);
+  }
+
+  getOrders(id: number): Observable<Order[]> {
+    return Observable.of(null);
+  }
+
+  getClient(id: number): Observable<Client> {
+    return Observable.of(null);
+  }
+
 }
 
 

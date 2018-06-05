@@ -1,0 +1,82 @@
+<br>
+<div class="row">
+  <div class="col-sm-1 col-md-2 col-lg-3"></div>
+  <div class="col-sm-10 col-md-8 col-lg-6">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="false">My Info</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="orders-tab" data-toggle="tab" href="#orders" role="tab" aria-controls="orders" aria-selected="false">My Orders</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="reservations-tab" data-toggle="tab" href="#reservations" role="tab" aria-controls="reservations" aria-selected="false">My Reservations</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
+        <form>
+          <br>
+          <div class="form-group">
+            <input disabled="disabled" type="name" class="form-control" id="registerName" value="{{ client?.nome }}">
+          </div>
+          <div class="form-group">
+            <input disabled="disabled" type="email" class="form-control" id="registerEmail" aria-describedby="emailHelp" value="{{ client?.email }}">
+          </div>
+          <div class="form-group">
+            <input disabled="disabled" type="nif" class="form-control" id="registerNif" value="{{ client?.nif }}">
+          </div>
+          <div class="form-group">
+            <input disabled="disabled" type="morada" class="form-control" id="registerStreet" value="{{ client?.morada?.rua }}">
+            <input disabled="disabled" type="morada" class="form-control" id="registerRegion" value="{{ client?.morada?.localidade }}">
+            <input disabled="disabled" type="morada" class="form-control" id="registerZipCode" value="{{ client?.morada?.codigoPostal }}">
+            <input disabled="disabled" type="morada" class="form-control" id="registerCounty" value="{{ client?.morada?.distrito }}">
+          </div>
+        </form>
+      </div>
+      <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+        <div *ngIf="orders" class="row">
+          <div class="col-sm-12 col-md-12 col-lg-4" *ngFor="let ord of orders;">
+            <div class="card" style="margin-bottom: 15%; margin-right: 10%" data-toggle="tooltip" data-placement="left">
+              <div class="card-header">
+                <strong>{{ord?.id}}: {{ord?.total}}€</strong>
+              </div>
+              <div class="card-body">
+                <p *ngFor="let prato of ord?.pratos;">
+                  ({{ prato.quantity*prato.prato.preco }}€) <strong>{{ prato.quantity }}</strong>x {{ prato.prato.nome }}
+                </p>
+              </div>
+              <div class="card-footer" >
+                <div *ngFor="let estado of ord?.estados; let last = last">
+                  <strong *ngIf="last" strong>Estado: {{ estado.estadoEncomenda.descricao }}</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-pane fade" id="reservations" role="tabpanel" aria-labelledby="reservations-tab">
+        <div *ngIf="reservations" class="row">
+          <div class="col-sm-12 col-md-12 col-lg-4" *ngFor="let res of reservations;">
+            <div class="card" style="margin-bottom: 15%; margin-right: 10%" data-toggle="tooltip" data-placement="left">
+              <div class="card-header">
+                <strong>{{res?.restaurante?.nome}}</strong>
+              </div>
+              <p>
+                <strong>Morada:</strong> {{res?.restaurante?.morada?.rua + ', ' + res?.restaurante?.morada?.localidade + ', ' + res?.restaurante?.morada?.distrito}}</p>
+              <p>
+                <strong>Data:</strong> {{res?.data}}</p>
+              <p>
+                <strong>Hora:</strong> {{res?.time}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-1 col-md-2 col-lg-3"></div>
+</div>
+
+
+
+

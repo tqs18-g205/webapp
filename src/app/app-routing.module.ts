@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { PlateListComponent } from './plate-list/plate-list.component';
 import { RestaurantListComponent } from './restaurant-list/restaurant-list.component';
 import { RegisterComponent } from './register/register.component';
-import { ReservationListComponent } from './reservation-list/reservation-list.component';
+import { ClientComponent } from './client/client.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/plates', pathMatch: 'full' },
@@ -15,7 +15,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'cart', component: CartComponent, canActivate: [AuthGuard] },
-  { path: 'client', component: CartComponent, canActivate: [AuthGuard] },
+  { path: 'client', component: ClientComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
