@@ -7,6 +7,13 @@ export class Reservation {
     time: string;
 }
 
+export class ReservationModel {
+    cliente: number;
+    restaurante: number;
+    data: string;
+    hora: string;
+}
+
 export interface PlateQuantity {
     id: number;
     prato: Plate;

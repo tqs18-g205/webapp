@@ -1,7 +1,8 @@
 import { Injectable, NgModule } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Plate, PlateCategory, Ingredient, IngredientQuantity, Restaurant, Delivery, Cooking, Client, Reservation } from './../_models';
+import { Plate, PlateCategory, Ingredient, IngredientQuantity,
+  Restaurant, Delivery, Cooking, Client, Reservation, ReservationModel } from './../_models';
 import { map } from 'rxjs/operators';
 
 
@@ -13,6 +14,12 @@ export class DataService {
 
   getReservations(id: number): Observable<Reservation[]> {
     return this.http.get<Reservation[]>(this.api_url + '/clientes/' + id + '/reservas',
+      { headers: this.getHeaders() });
+  }
+
+  makeReservation(model: ReservationModel): Observable<any> {
+    return this.http.post(this.api_url + '/clientes/' + model.cliente + '/reservas',
+    model,
       { headers: this.getHeaders() });
   }
 
