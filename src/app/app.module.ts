@@ -18,6 +18,7 @@ import { DataService, UtilitiesService } from './_services';
 import { RestaurantListComponent } from './restaurant-list/restaurant-list.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { ReservationListComponent } from './reservation-list/reservation-list.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { RegisterComponent } from './register/register.component';
     PlateListComponent,
     RestaurantListComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ReservationListComponent
   ],
   imports: [
     BrowserModule,

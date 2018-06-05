@@ -1,7 +1,7 @@
 import { Injectable, NgModule } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Plate, PlateCategory, Ingredient, IngredientQuantity, Restaurant, Delivery, Cooking, Client } from './../_models';
+import { Plate, PlateCategory, Ingredient, IngredientQuantity, Restaurant, Delivery, Cooking, Client, Reservation } from './../_models';
 import { map } from 'rxjs/operators';
 
 
@@ -10,6 +10,11 @@ import { map } from 'rxjs/operators';
 export class DataService {
   readonly host_url = 'https://tqsnutri.herokuapp.com';
   readonly api_url = this.host_url + '/api';
+
+  getReservations(id: number): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(this.api_url + '/clientes/' + id + '/reservas',
+      { headers: this.getHeaders() });
+  }
 
   getPlates(): Observable<Plate[]> {
     return this.http.get<Plate[]>(this.api_url + '/pratos');
