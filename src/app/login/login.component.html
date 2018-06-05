@@ -1,0 +1,57 @@
+<br>
+<div class="row">
+  <div class="col-sm-1 col-md-3 col-lg-4"></div>
+  <div class="col-sm-10 col-md-6 col-lg-4">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+      <li class="nav-item">
+        <a class="nav-link active" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="false">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">Register</a>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+
+        <form>
+          <br>
+          <div class="form-group">
+            <input #loginEmail type="email" class="form-control" id="loginEmail" aria-describedby="emailHelp" placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <input #loginPassword type="password" class="form-control" id="loginPassword" placeholder="Password">
+          </div>
+          <button type="submit" class="btn btn-success form-control" (click)="login(loginEmail.value, loginPassword.value)">Login</button>
+        </form>
+
+      </div>
+      <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+
+        <form>
+          <br>
+          <div class="form-group">
+            <input #registerName type="name" class="form-control" id="registerName" placeholder="Enter name">
+          </div>
+          <div class="form-group">
+            <input #registerPassword type="password" class="form-control" id="registerPassword" placeholder="Password">
+          </div>
+          <div class="form-group">
+            <input #registerEmail type="email" class="form-control" id="registerEmail" aria-describedby="emailHelp" placeholder="Enter email">
+          </div>
+          <div class="form-group">
+            <input #registerNif type="nif" class="form-control" id="registerNif" placeholder="NIF">
+          </div>
+          <div class="form-group">
+            <input #registerStreet type="morada" class="form-control" id="registerStreet" placeholder="Street">
+            <input #registerRegion type="morada" class="form-control" id="registerRegion" placeholder="Region">
+            <input #registerZipCode type="morada" class="form-control" id="registerZipCode" placeholder="ZIP code">
+            <input #registerCounty type="morada" class="form-control" id="registerCounty" placeholder="County">
+          </div>
+          <button type="submit" class="btn btn-success form-control" (click)="register(registerName.value, registerPassword.value, registerEmail.value, registerNif.value, registerStreet.value, registerRegion.value, registerZipCode.value, registerCounty.value)">Register</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-1 col-md-3 col-lg-4"></div>
+</div>

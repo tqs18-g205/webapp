@@ -1,3 +1,4 @@
+import { AuthGuard } from './auth.guard';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, Component } from '@angular/core';
@@ -12,19 +13,25 @@ import { RouterModule } from '@angular/router';
 
 import { HttpClientModule } from '@angular/common/http';
 
-import { DataService } from './data.service';
-import { UtilitiesService } from './utilities.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DataService, UtilitiesService } from './_services';
 import { RestaurantListComponent } from './restaurant-list/restaurant-list.component';
+import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     PlateListComponent,
-    RestaurantListComponent
+    RestaurantListComponent,
+    LoginComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     DataService,
     UtilitiesService,
@@ -33,7 +40,7 @@ import { RestaurantListComponent } from './restaurant-list/restaurant-list.compo
     MatSliderModule,
     RouterModule
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

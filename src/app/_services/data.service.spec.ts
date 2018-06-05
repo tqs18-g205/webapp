@@ -1,6 +1,7 @@
 import { TestBed, getTestBed, inject } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { DataService, Plate, Category, Ingredient, IngredientQuantity, Restaurant, Delivery } from './data.service';
+import { DataService } from './';
+import { Plate, PlateCategory, Ingredient, IngredientQuantity, Restaurant, Delivery, Cooking, Address } from './../_models';
 
 describe('DataService', () => {
   let injector: TestBed;
@@ -129,11 +130,11 @@ const DUMMY_PLATE_0 =
     imagem: 'https://eatfirst.imgix.net/b7451490-9964-43cd-90be-751349dd7b7f.jpeg',
     calorias: 764,
     categorias: [
-      <Category>{
+      <PlateCategory>{
         id: 0,
         nome: 'Prato'
       },
-      <Category>{
+      <PlateCategory>{
         id: 1,
         nome: 'Japonês'
       }],
@@ -176,11 +177,11 @@ const DUMMY_PLATES = [
     imagem: 'https://eatfirst.imgix.net/b7451490-9964-43cd-90be-751349dd7b7f.jpeg',
     calorias: 764,
     categorias: [
-      <Category>{
+      <PlateCategory>{
         id: 0,
         nome: 'Prato'
       },
-      <Category>{
+      <PlateCategory>{
         id: 1,
         nome: 'Japonês'
       }]
@@ -192,15 +193,15 @@ const DUMMY_PLATES = [
     imagem: 'https://eatfirst.imgix.net/ce916f40-7ff7-4f27-add0-73160194028c.jpeg',
     calorias: 647,
     categorias: [
-      <Category>{
+      <PlateCategory>{
         id: 0,
         nome: 'Prato'
       },
-      <Category>{
+      <PlateCategory>{
         id: 2,
         nome: 'Asiático'
       },
-      <Category>{
+      <PlateCategory>{
         id: 3,
         nome: 'Carne'
       }]
@@ -209,27 +210,27 @@ const DUMMY_PLATES = [
 
 
 const DUMMY_PLATE_CATEGORIES = [
-  <Category>{
+  <PlateCategory>{
     id: 0,
     nome: 'Prato'
   },
-  <Category>{
+  <PlateCategory>{
     id: 1,
     nome: 'Japonês'
   },
-  <Category>{
+  <PlateCategory>{
     id: 2,
     nome: 'Asiático'
   },
-  <Category>{
+  <PlateCategory>{
     id: 3,
     nome: 'Carne'
   },
-  <Category>{
+  <PlateCategory>{
     id: 4,
     nome: 'Entrada'
   },
-  <Category>{
+  <PlateCategory>{
     id: 5,
     nome: 'Sobremesa'
   }
@@ -245,7 +246,7 @@ const DUMMY_DELIVERIES = [
 
 
 const DUMMY_RESTAURANT_CATEGORIES = [
-  <Category>{
+  <Cooking>{
     id: 1,
     nome: 'Portuguesa'
   }
@@ -257,12 +258,20 @@ const DUMMY_RESTAURANTS = [
     id: 1,
     nome: 'O Moliceiro',
     tipoCozinha:
-      <Category>{
+      <Cooking>{
         id: 1,
         nome: 'Portuguesa'
       },
     tiposEntrega: [],
-    moradas: []
+    morada:
+      <Address>{
+        rua: 'Rua da Gloria',
+        localidade: 'Gloria',
+        codigoPostal: '3810-611',
+        distrito: 'Aveiro'
+      },
+    imagem: 'sd',
+    pratos: DUMMY_PLATES
   }
 ];
 
@@ -270,13 +279,18 @@ const DUMMY_RESTAURANT_0 =
   <Restaurant>{
     id: 1,
     nome: 'O Moliceiro',
-    pratos:
-      DUMMY_PLATES,
     tipoCozinha:
-      <Category>{
+      <Cooking>{
         id: 1,
         nome: 'Portuguesa'
       },
-    tiposEntrega: [],
-    moradas: []
+    morada:
+        <Address>{
+          rua: 'Rua da Gloria',
+          localidade: 'Gloria',
+          codigoPostal: '3810-611',
+          distrito: 'Aveiro'
+        },
+    imagem: 'sd',
+    pratos: DUMMY_PLATES
   };

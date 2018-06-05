@@ -1,6 +1,5 @@
 import { TestBed, getTestBed, inject } from '@angular/core/testing';
-import { UtilitiesService } from './utilities.service';
-
+import { UtilitiesService } from './';
 
 describe('#intersect', () => {
   let injector: TestBed;

@@ -1,4 +1,3 @@
-import { UtilitiesService } from './../utilities.service';
 import { environment } from './../../environments/environment';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Observable } from 'rxjs/Observable';
@@ -6,7 +5,8 @@ import 'rxjs/add/observable/of';
 import { HttpClient } from '@angular/common/http';
 
 import { RestaurantListComponent } from './restaurant-list.component';
-import { DataService, Restaurant, Category, Delivery, Plate } from '../data.service';
+import { DataService, UtilitiesService } from './../_services';
+import { Restaurant, Cooking, Delivery, Plate, PlateCategory, Address } from './../_models';
 import { stringify } from 'querystring';
 
 describe('PlateListComponent', () => {
@@ -123,7 +123,7 @@ class DataServiceMock {
     return Observable.of(DUMMY_RESTAURANT_0);
   }
 
-  getRestaurantCategories(): Observable<Category[]> {
+  getRestaurantCategories(): Observable<Cooking[]> {
     return Observable.of(DUMMY_RESTAURANT_CATEGORIES);
   }
 
@@ -140,11 +140,11 @@ const DUMMY_PLATES = [
     imagem: 'https://eatfirst.imgix.net/b7451490-9964-43cd-90be-751349dd7b7f.jpeg',
     calorias: 764,
     categorias: [
-      <Category>{
+      <PlateCategory>{
         id: 0,
         nome: 'Prato'
       },
-      <Category>{
+      <PlateCategory>{
         id: 1,
         nome: 'Japonês'
       }]
@@ -156,15 +156,15 @@ const DUMMY_PLATES = [
     imagem: 'https://eatfirst.imgix.net/ce916f40-7ff7-4f27-add0-73160194028c.jpeg',
     calorias: 647,
     categorias: [
-      <Category>{
+      <PlateCategory>{
         id: 0,
         nome: 'Prato'
       },
-      <Category>{
+      <PlateCategory>{
         id: 2,
         nome: 'Asiático'
       },
-      <Category>{
+      <PlateCategory>{
         id: 3,
         nome: 'Carne'
       }]
@@ -185,15 +185,15 @@ const DUMMY_DELIVERIES = [
 
 
 const DUMMY_RESTAURANT_CATEGORIES = [
-  <Category>{
+  <Cooking>{
     id: 1,
     nome: 'Portuguesa'
   },
-  <Category>{
+  <Cooking>{
     id: 2,
     nome: 'Indiana'
   },
-  <Category>{
+  <Cooking>{
     id: 3,
     nome: 'Chinesa'
   }
@@ -206,7 +206,7 @@ const DUMMY_RESTAURANTS = [
     id: 1,
     nome: 'O Moliceiro',
     tipoCozinha:
-      <Category>{
+      <Cooking>{
         id: 1,
         nome: 'Portuguesa'
       },
@@ -225,7 +225,7 @@ const DUMMY_RESTAURANTS = [
     id: 2,
     nome: 'Monhe',
     tipoCozinha:
-      <Category>{
+      <Cooking>{
         id: 2,
         nome: 'Indiana'
       },
@@ -240,7 +240,7 @@ const DUMMY_RESTAURANTS = [
     id: 3,
     nome: 'Chinzeng',
     tipoCozinha:
-      <Category>{
+      <Cooking>{
         id: 3,
         nome: 'Chinesa'
       },
@@ -260,7 +260,7 @@ const DUMMY_RESTAURANT_0 =
     pratos:
       DUMMY_PLATES,
     tipoCozinha:
-      <Category>{
+      <Cooking>{
         id: 1,
         nome: 'Portuguesa'
       },
@@ -274,7 +274,13 @@ const DUMMY_RESTAURANT_0 =
         descricao: 'Entrega em Casa'
       }
     ],
-    moradas: [
-      'Rua Principal nº25, Aveiro',
-      'Rua da Avenida nº3, Coimbra']
+    morada:
+      <Address>{
+        id: 4,
+        rua: 'Rua de Aveiro',
+        localidade: 'Aveiro',
+        codigoPostal: '3810-613',
+        distrito: 'Aveiro'
+      },
+    imagem: 'https://lifecooler.com/files/registos/imagens/459666/389929.jpg'
   };
