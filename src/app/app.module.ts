@@ -29,7 +29,7 @@ import { ReservationListComponent } from './reservation-list/reservation-list.co
     RestaurantListComponent,
     LoginComponent,
     RegisterComponent,
-    CartComponent
+    CartComponent,
     ReservationListComponent
   ],
   imports: [
