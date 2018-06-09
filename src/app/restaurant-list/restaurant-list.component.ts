@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService, UtilitiesService } from './../_services';
-import { Restaurant, Cooking, Delivery } from './../_models';
+import { Restaurant, Cooking, Delivery, Reservation, ReservationModel } from './../_models';
 
 @Component({
   selector: 'app-restaurant-list',
@@ -40,6 +40,22 @@ export class RestaurantListComponent implements OnInit {
         this.deliveries = deliveries;
         this.search.deliveries = deliveries.map(({ id }) => id);
       });
+  }
+
+  makeReservation(restaurant_id: number, hour: string): void {
+    const client_id = localStorage.getItem('currentUser');
+    const now = new Date();
+    const day = now.getDate();
+    const month = now.getMonth() + 1;
+    const year = now.getFullYear();
+    const date = day + '-' + month + '-' + year;
+    const model = <ReservationModel>{
+      cliente: +client_id,
+      restaurante: restaurant_id,
+      data: date,
+      hora: hour
+    };
+    this.restaurant_service.makeReservation(model).subscribe();
   }
 
   updateModal(restaurant_id: number): void {

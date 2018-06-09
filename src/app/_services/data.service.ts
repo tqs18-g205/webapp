@@ -2,7 +2,7 @@ import { Injectable, NgModule } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Plate, PlateCategory, Ingredient, IngredientQuantity,
-  Restaurant, Delivery, Cooking, Client, Reservation, Order, Forbidden, Cart } from './../_models';
+  Restaurant, Delivery, Cooking, Client, Reservation, ReservationModel, Order, Forbidden, Cart } from './../_models';
 import { map } from 'rxjs/operators';
 import { stringify } from 'querystring';
 
@@ -14,6 +14,16 @@ export class DataService {
   readonly api_url = this.host_url + '/api';
 
   // General API Endpoints
+  getReservations(id: number): Observable<Reservation[]> {
+    return this.http.get<Reservation[]>(this.api_url + '/clientes/' + id + '/reservas',
+      { headers: this.getHeaders() });
+  }
+
+  makeReservation(model: ReservationModel): Observable<any> {
+    return this.http.post(this.api_url + '/clientes/' + model.cliente + '/reservas',
+    model, { headers: this.getHeaders() });
+  }
+  
   getPlates(): Observable<Plate[]> {
     return this.http.get<Plate[]>(this.api_url + '/pratos');
   }
