@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Plate } from '../_models';
+import { Plate, Cart } from '../_models';
 import { DataService } from '../_services';
+import { Router } from '@angular/router';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-cart',
@@ -9,42 +11,47 @@ import { DataService } from '../_services';
 })
 export class CartComponent implements OnInit {
 
-  cart: Map<number, number> = new Map;
+  cart: Cart;
   plateList: Plate[];
   total: number;
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService,
+              private router: Router) { }
 
   ngOnInit() {
     this.cart = this.dataService.getCurrentCart();
     this.plateList = [];
     this.total = 0;
 
-    for (let i = 1; i < 20; i++) {
-      if (this.cart[i]) {
-        this.dataService.getPlate(i).subscribe(
-          plate => {
-            this.plateList.push(plate);
-            this.total += plate.preco * this.cart[i];
-          }
-        );
+    for (const cartPlate of this.cart.plates) {
+      this.dataService.getPlate(cartPlate.id).subscribe(
+        plate => {
+          this.plateList.push(plate);
+          this.total += plate.preco * cartPlate.quantity;
+        }
+      );
+    }
+  }
+
+  getQuantity(plate_id) {
+    for (const cartPlate of this.cart.plates) {
+      if (cartPlate.id === plate_id) {
+        return cartPlate.quantity;
       }
     }
   }
 
   cancelCart() {
-    const cart: Map<number, number> = new Map();
-    this.dataService.setCurrentCart(cart);
+    this.dataService.setCurrentCart(<Cart>{ plates: [] });
   }
 
   confirmCart() {
-    this.dataService.purchase()
+    this.dataService.addOrder()
       .subscribe(
         data => {
-          const cart: Map<number, number> = new Map();
-          this.dataService.setCurrentCart(cart);
+          this.cancelCart();
           alert('Purchase completed!');
-          window.location.href = '/client';
+          this.router.navigate(['/client']);
         },
         error => {
           alert('Error, try again later!');

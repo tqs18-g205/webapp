@@ -2,8 +2,9 @@ import { Injectable, NgModule } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Plate, PlateCategory, Ingredient, IngredientQuantity,
-  Restaurant, Delivery, Cooking, Client, Reservation, Order } from './../_models';
+  Restaurant, Delivery, Cooking, Client, Reservation, Order, Forbidden, Cart } from './../_models';
 import { map } from 'rxjs/operators';
+import { stringify } from 'querystring';
 
 
 @NgModule()
@@ -12,16 +13,7 @@ export class DataService {
   readonly host_url = 'https://tqsnutri.herokuapp.com';
   readonly api_url = this.host_url + '/api';
 
-  getReservations(id: number): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(this.api_url + '/clientes/' + id + '/reservas',
-      { headers: this.getHeaders() });
-  }
-
-  getOrders(id: number): Observable<Order[]> {
-    return this.http.get<Order[]>(this.api_url + '/clientes/' + id + '/encomendas',
-      { headers: this.getHeaders() });
-  }
-
+  // General API Endpoints
   getPlates(): Observable<Plate[]> {
     return this.http.get<Plate[]>(this.api_url + '/pratos');
   }
@@ -50,10 +42,43 @@ export class DataService {
     return this.http.get<Delivery[]>(this.api_url + '/tiposentrega');
   }
 
-  login(user: any) {
+  addClient(client: Client): Observable<Client> {
+    return this.http.post<Client>(this.api_url + '/clientes',
+      client);
+  }
+
+  // Login Required API Endpoints
+  getClient(id: number): Observable<any> {
+    return this.http.get<Client>(this.api_url + '/clientes/' + id,
+      { headers: this.getHeaders() });
+  }
+
+  getReservations(id: number): Observable<any> {
+    return this.http.get<Reservation[]>(this.api_url + '/clientes/' + id + '/reservas',
+      { headers: this.getHeaders() });
+  }
+
+  getOrders(id: number): Observable<any> {
+    return this.http.get<Order[]>(this.api_url + '/clientes/' + id + '/encomendas',
+      { headers: this.getHeaders() });
+  }
+
+  addOrder(): Observable<any> {
+    const client_id: number = +localStorage.getItem('currentUser');
+    const plates = new Map<number, number>();
+    for (const plate of this.getCurrentCart().plates) {
+      plates[plate.id] = plate.quantity;
+    }
+    return this.http.post(this.api_url + '/clientes/' + client_id + '/encomendas',
+      { tipoEntrega: 1, cliente: client_id, pratos: plates },
+      { headers: this.getHeaders() });
+  }
+
+  // Internal Login Management
+  login(user: { username: string, passwd: string }): Observable<any> {
     return this.http.post<any>(this.host_url + '/login', user)
       .pipe(map(resp => {
-        if (resp && resp.token) {
+        if (resp !== null && resp.token !== undefined) {
           localStorage.setItem('currentToken', resp.token);
           localStorage.setItem('currentUser', resp.cliente);
         }
@@ -61,57 +86,41 @@ export class DataService {
       }));
   }
 
-  loggedIn() {
-    return !localStorage.getItem('currentUser');
+  loggedIn(): boolean {
+    return localStorage.getItem('currentUser') !== null;
   }
 
   logout() {
+    localStorage.removeItem('currentToken');
     localStorage.removeItem('currentUser');
   }
 
-  getClient(id: number): Observable<Client> {
-    return this.http.get<Client>(this.api_url + '/clientes/' + id,
-      { headers: this.getHeaders() });
-  }
-
-  addClient(client: Client) {
-    return this.http.post(this.api_url + '/clientes', client);
-  }
-
   getCurrentClient(): Observable<Client> {
-    const userId = localStorage.getItem('currentUser');
-    if (userId) {
-      return this.getClient(+userId);
+    if (this.loggedIn()) {
+      return this.getClient(+localStorage.getItem('currentUser'));
     }
-    return;
+    return null;
   }
 
-  getCurrentCart(): Map<number, number> {
-    let cart = <Map<number, number>>JSON.parse(localStorage.getItem('currentCart'));
-    if (!cart) {
-      cart = new Map<number, number>();
-    }
-    return cart;
-  }
-
-  setCurrentCart(cart: Map<number, number>) {
+  setCurrentCart(cart: Cart) {
     localStorage.setItem('currentCart', JSON.stringify(cart));
   }
 
-  getHeaders() {
+  getCurrentCart(): Cart {
+    if (localStorage.getItem('currentCart') === null) {
+      this.setCurrentCart(<Cart>{plates: []});
+    }
+    const currCart = <Cart>JSON.parse(localStorage.getItem('currentCart'));
+    return currCart;
+  }
+
+  getHeaders(): HttpHeaders {
     const currentToken = localStorage.getItem('currentToken');
     if (currentToken) {
       return new HttpHeaders().set('Content-Type', 'application/json')
         .set('Authorization', currentToken);
     }
     return new HttpHeaders();
-  }
-
-  purchase() {
-    const client_id: number = +localStorage.getItem('currentUser');
-    return this.http.post(this.api_url + '/clientes/' + client_id + '/encomendas',
-      { tipoEntrega: 1, cliente: client_id, pratos: this.getCurrentCart()},
-      { headers: this.getHeaders() });
   }
 
   constructor(private http: HttpClient) { }

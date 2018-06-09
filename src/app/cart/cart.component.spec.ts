@@ -1,226 +1,122 @@
-import { environment } from './../../environments/environment';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import { HttpClient } from '@angular/common/http';
-
-import { DataService, UtilitiesService } from './../_services';
-import { Plate, PlateCategory, Ingredient, IngredientQuantity } from './../_models';
-import { stringify } from 'querystring';
+import { TestBed } from '@angular/core/testing';
+import { DataService, DataServiceMock, DUMMY_CART, DUMMY_PLATES } from './../_services';
 import { CartComponent } from './cart.component';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ClientComponent } from '../client/client.component';
+import { stringify } from 'querystring';
+import { Cart, Plate } from '../_models';
+import { of } from 'rxjs';
 
-describe('LoginComponent', () => {
+describe('CartComponent', () => {
   let component: CartComponent;
-  let plateService: DataService;
+  let service: DataService;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
-        CartComponent
+        CartComponent,
+        ClientComponent
       ],
+      imports: [RouterTestingModule.withRoutes([{ path: 'client', component: ClientComponent },
+      ])],
       providers: [
-        { provide: DataService, useClass: DataServiceMock },
-        UtilitiesService
+        { provide: DataService, useClass: DataServiceMock }
       ]
     });
     component = TestBed.createComponent(CartComponent).componentInstance;
-    plateService = TestBed.get(DataService);
+    service = TestBed.get(DataService);
+    router = TestBed.get(Router);
     component.ngOnInit();
   });
+
+  beforeEach(() => {
+    service.login({ username: 'username', passwd: 'password' });
+  });
+
+  afterEach(() => {
+    service.logout();
+    localStorage.removeItem('currentCart');
+  });
+
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('#initial cart', () => {
+    it('should be empty', () => {
+      const mockCart = <Cart>{ plates: [] };
+      service.setCurrentCart(mockCart);
+      component.ngOnInit();
+      expect(stringify(component.plateList)).toBe(stringify(mockCart));
+      expect(component.total).toBe(0);
+    });
+
+    it('should be filled', () => {
+      service.setCurrentCart(DUMMY_CART);
+      spyOn(service, 'getCurrentCart').and.callThrough();
+      spyOn(service, 'getPlate').and.returnValue(of(<Plate>{ nome: 'prato', preco: 1.5 }));
+      component.ngOnInit();
+      expect(service.getCurrentCart).toHaveBeenCalled();
+      expect(service.getPlate).toHaveBeenCalledTimes(DUMMY_CART.plates.length);
+      expect(stringify(component.plateList)).toBe(stringify(DUMMY_PLATES));
+      expect(component.total).toBe(6);
+    });
+  });
+
+  describe('#cancelCart', () => {
+    it('should reset Cart', () => {
+      spyOn(service, 'setCurrentCart').and.callThrough();
+      component.cancelCart();
+      const cart: Cart = <Cart>{plates: []};
+      expect(service.setCurrentCart).toHaveBeenCalledWith(cart);
+    });
+  });
+
+  describe('#confirmCart', () => {
+    it('should complete the order', () => {
+      spyOn(service, 'setCurrentCart').and.callThrough();
+      spyOn(service, 'addOrder').and.callThrough();
+      spyOn(router, 'navigate');
+      spyOn(window, 'alert');
+      component.confirmCart();
+      expect(service.addOrder).toHaveBeenCalled();
+
+      const cart: Cart = <Cart>{ plates: [] };
+      expect(service.setCurrentCart).toHaveBeenCalledWith(cart);
+      expect(router.navigate).toHaveBeenCalledWith(['/client']);
+      expect(alert).toHaveBeenCalledWith('Purchase completed!');
+    });
+
+    it('should warn user about error', () => {
+      service.logout();
+      spyOn(service, 'addOrder').and.callThrough();
+      spyOn(window, 'alert');
+      component.confirmCart();
+      expect(service.addOrder).toHaveBeenCalled();
+      expect(alert).toHaveBeenCalledWith('Error, try again later!');
+    });
+  });
+
+  describe('#getQuantity', () => {
+    it('should return undefined', () => {
+      service.setCurrentCart({plates: []});
+      component.ngOnInit();
+      expect(component.getQuantity(0)).toBeUndefined();
+    });
+
+    it('should return undefined', () => {
+      service.setCurrentCart({ plates: [{ id: 0, quantity: 10 }] });
+      component.ngOnInit();
+      expect(component.getQuantity(1)).toBeUndefined();
+    });
+
+    it('should return the correct quantity', () => {
+      service.setCurrentCart({ plates: [{ id: 0, quantity: 10 }] });
+      component.ngOnInit();
+      expect(component.getQuantity(0)).toBe(10);
+    });
+  });
 });
-
-
-class DataServiceMock {
-  getCurrentCart() {
-    return new Map<number, number>();
-  }
-
-}
-
-
-const DUMMY_PLATE_0 =
-  <Plate>{
-    id: 0,
-    nome: 'TOFU KATSU CURRY',
-    preco: 5.99,
-    imagem: 'https://eatfirst.imgix.net/b7451490-9964-43cd-90be-751349dd7b7f.jpeg',
-    calorias: 764,
-    categorias: [
-      <PlateCategory>{
-        id: 0,
-        nome: 'Prato'
-      },
-      <PlateCategory>{
-        id: 1,
-        nome: 'Japonês'
-      }],
-    ingredientes: [
-      <IngredientQuantity>{
-        ingrediente: <Ingredient>{
-          id: 0,
-          nome: 'Tofu',
-          calorias: 20
-        },
-        quantidade: 500
-      },
-      <IngredientQuantity>{
-        ingrediente: <Ingredient>{
-          id: 0,
-          nome: 'Onions',
-          calorias: 50
-        },
-        quantidade: 200
-      },
-      <IngredientQuantity>{
-        ingrediente: <Ingredient>{
-          id: 0,
-          nome: 'Soy Sauce',
-          calorias: 70
-        },
-        quantidade: 30
-      }
-    ]
-  };
-
-const DUMMY_PLATES = [
-  <Plate>{
-    id: 0,
-    nome: 'TOFU KATSU CURRY',
-    preco: 5.99,
-    imagem: 'https://eatfirst.imgix.net/b7451490-9964-43cd-90be-751349dd7b7f.jpeg',
-    calorias: 764,
-    categorias: [
-      <PlateCategory>{
-        id: 0,
-        nome: 'Prato'
-      },
-      <PlateCategory>{
-        id: 1,
-        nome: 'Japonês'
-      }]
-  },
-  <Plate>{
-    id: 1,
-    nome: 'ASIAN BBQ RIBS',
-    preco: 7.99,
-    imagem: 'https://eatfirst.imgix.net/ce916f40-7ff7-4f27-add0-73160194028c.jpeg',
-    calorias: 647,
-    categorias: [
-      <PlateCategory>{
-        id: 0,
-        nome: 'Prato'
-      },
-      <PlateCategory>{
-        id: 2,
-        nome: 'Asiático'
-      },
-      <PlateCategory>{
-        id: 3,
-        nome: 'Carne'
-      }]
-  },
-  <Plate>{
-    id: 2,
-    nome: 'GRILLED MISO CHICKEN',
-    preco: 7.99,
-    imagem: 'https://eatfirst.imgix.net/7832cd80-b221-4bd1-a28c-5e282508ef6e.jpeg',
-    calorias: 663,
-    categorias: [
-      <PlateCategory>{
-        id: 0,
-        nome: 'Prato'
-      },
-      <PlateCategory>{
-        id: 2,
-        nome: 'Asiático'
-      },
-      <PlateCategory>{
-        id: 3,
-        nome: 'Carne'
-      }]
-  },
-  <Plate>{
-    id: 3,
-    nome: 'NAKED CHICKEN CAESAR',
-    preco: 8.99,
-    imagem: 'https://eatfirst.imgix.net/8d007ebb-6982-4f17-9a3e-a32362bb8fba.jpeg',
-    calorias: 377,
-    categorias: [
-      <PlateCategory>{
-        id: 0,
-        nome: 'Prato'
-      },
-      <PlateCategory>{
-        id: 3,
-        nome: 'Carne'
-      }]
-  },
-  <Plate>{
-    id: 4,
-    nome: 'POTATO AND EGG SALAD',
-    preco: 2.80,
-    imagem: 'https://eatfirst.imgix.net/3293d155-546a-44ef-ba01-89b575f11054.jpeg',
-    calorias: 225,
-    categorias: [
-      <PlateCategory>{
-        id: 4,
-        nome: 'Entrada'
-      }]
-  },
-  <Plate>{
-    id: 5,
-    nome: 'EDAMAME WITH MALDON SALT',
-    preco: 2.99,
-    imagem: 'https://eatfirst.imgix.net/26ce83ee-9da2-4898-8bce-909a80c59a36.jpeg',
-    calorias: 73,
-    categorias: [
-      <PlateCategory>{
-        id: 4,
-        nome: 'Entrada'
-      }]
-  },
-  <Plate>{
-    id: 6,
-    nome: 'TIRAMISU',
-    preco: 4.99,
-    imagem: 'https://eatfirst.imgix.net/79f495cc-dd93-40ea-96cf-edfa0cdfce9d.jpeg',
-    calorias: 409,
-    categorias: [
-      <PlateCategory>{
-        id: 5,
-        nome: 'Sobremesa'
-      }]
-  }
-];
-
-
-const DUMMY_CATEGORIES = [
-  <PlateCategory>{
-    id: 0,
-    nome: 'Prato'
-  },
-  <PlateCategory>{
-    id: 1,
-    nome: 'Japonês'
-  },
-  <PlateCategory>{
-    id: 2,
-    nome: 'Asiático'
-  },
-  <PlateCategory>{
-    id: 3,
-    nome: 'Carne'
-  },
-  <PlateCategory>{
-    id: 4,
-    nome: 'Entrada'
-  },
-  <PlateCategory>{
-    id: 5,
-    nome: 'Sobremesa'
-  }];

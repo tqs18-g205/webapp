@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService, UtilitiesService } from './../_services';
-import { Plate, PlateCategory } from './../_models';
+import { Plate, PlateCategory, Cart } from './../_models';
 
 @Component({
   selector: 'app-plate-list',
@@ -23,7 +23,6 @@ export class PlateListComponent implements OnInit {
   constructor(private plate_service: DataService, private utils: UtilitiesService) { }
 
   ngOnInit(): void {
-    console.log('cart', this.plate_service.getCurrentCart());
     this.plate_service.getPlates()
       .subscribe(plates => {
         this.plates = plates;
@@ -78,11 +77,17 @@ export class PlateListComponent implements OnInit {
   }
 
   addToCart(plate_id: number) {
-    const cart: Map<number, number> = this.plate_service.getCurrentCart();
-    if (!cart[plate_id]) {
-      cart[plate_id] = 0;
+    const cart: Cart = this.plate_service.getCurrentCart();
+    for (const cartPlate of cart.plates) {
+      if (cartPlate.id === plate_id) {
+        cartPlate.quantity += 1;
+        this.plate_service.setCurrentCart(cart);
+        alert('Plate quantity updated.');
+        return;
+      }
     }
-    cart[plate_id] = cart[plate_id] + 1;
+
+    cart.plates.push({id: plate_id, quantity: 1});
     this.plate_service.setCurrentCart(cart);
     alert('Plate added to the cart.');
   }

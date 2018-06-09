@@ -17,7 +17,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DataService, UtilitiesService } from './_services';
 import { RestaurantListComponent } from './restaurant-list/restaurant-list.component';
 import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
 import { CartComponent } from './cart/cart.component';
 import { ClientComponent } from './client/client.component';
 
@@ -28,7 +27,6 @@ import { ClientComponent } from './client/client.component';
     PlateListComponent,
     RestaurantListComponent,
     LoginComponent,
-    RegisterComponent,
     CartComponent,
     ClientComponent
   ],

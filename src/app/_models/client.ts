@@ -1,6 +1,6 @@
 import { Delivery, Plate, Restaurant, Address } from './';
 
-export class Reservation {
+export interface Reservation {
     id: number;
     restaurant: Restaurant;
     data: string;
@@ -13,13 +13,13 @@ export interface PlateQuantity {
     quantidade: number;
 }
 
-export class Order {
+export interface Order {
     id: number;
     pratos: PlateQuantity;
     tipoEntrega: Delivery;
 }
 
-export class Client {
+export interface Client {
     id: number;
     nome: string;
     passwd: string;
