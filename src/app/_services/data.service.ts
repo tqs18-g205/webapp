@@ -14,16 +14,6 @@ export class DataService {
   readonly api_url = this.host_url + '/api';
 
   // General API Endpoints
-  getReservations(id: number): Observable<Reservation[]> {
-    return this.http.get<Reservation[]>(this.api_url + '/clientes/' + id + '/reservas',
-      { headers: this.getHeaders() });
-  }
-
-  makeReservation(model: ReservationModel): Observable<any> {
-    return this.http.post(this.api_url + '/clientes/' + model.cliente + '/reservas',
-    model, { headers: this.getHeaders() });
-  }
-  
   getPlates(): Observable<Plate[]> {
     return this.http.get<Plate[]>(this.api_url + '/pratos');
   }
@@ -82,6 +72,11 @@ export class DataService {
     return this.http.post(this.api_url + '/clientes/' + client_id + '/encomendas',
       { tipoEntrega: 1, cliente: client_id, pratos: plates },
       { headers: this.getHeaders() });
+  }
+
+  makeReservation(model: ReservationModel): Observable<any> {
+    return this.http.post(this.api_url + '/clientes/' + model.cliente + '/reservas',
+      model, { headers: this.getHeaders() });
   }
 
   // Internal Login Management

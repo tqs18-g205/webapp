@@ -221,6 +221,21 @@ describe('DataService', () => {
     });
   });
 
+  describe('#makeReservation', () => {
+    it('should return the summary', () => {
+      const reservation = { cliente: 0, restaurante: 2, data: '25-5-2018', hora: '20:50' };
+      service.makeReservation(reservation).subscribe(reser => {
+        expect(reser).toBe(DUMMY_RESERVATIONS[0]);
+      });
+
+      const req = httpMock.expectOne(`${service.api_url}/clientes/0/reservas`);
+      expect(req.request.method).toBe('POST');
+      expect(JSON.stringify(req.request.body)).toBe(
+        JSON.stringify(reservation));
+      req.flush(DUMMY_RESERVATIONS[0]);
+    });
+  });
+
   describe('#logIn', () => {
     afterEach(() => {
       localStorage.removeItem('currentUser');

@@ -1,6 +1,6 @@
 import { Plate, PlateCategory, Ingredient, IngredientQuantity,
     Restaurant, Delivery, Cooking, Address, Client, Reservation,
-    Order, Forbidden, Cart} from './../_models';
+    Order, Forbidden, Cart, ReservationModel} from './../_models';
 import { Observable, of, throwError } from 'rxjs';
 import { stringify } from 'querystring';
 
@@ -67,6 +67,13 @@ export class DataServiceMock {
     addOrder(): Observable<any> {
         if (this.loggedIn()) {
             return of(DUMMY_ORDERS[0]);
+        }
+        return throwError('Forbidden');
+    }
+
+    makeReservation(model: ReservationModel): Observable<any> {
+        if (this.loggedIn()) {
+            return of(DUMMY_RESERVATIONS[0]);
         }
         return throwError('Forbidden');
     }
@@ -256,7 +263,16 @@ export const DUMMY_FORBIDDEN = {
     'message': 'Access Denied'
 };
 
-export const DUMMY_RESERVATIONS = [];
+export const DUMMY_RESERVATIONS = [
+    {
+    id: 1,
+    restaurante: {
+        id: 1
+    },
+    data: '2018-09-01',
+    time: '20:00:00'
+    }
+];
 
 export const DUMMY_ORDERS = [
         {

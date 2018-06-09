@@ -111,4 +111,12 @@ describe('PlateListComponent', () => {
     expect(component.restaurants_to_show.length).toEqual(0);
   });
 
+  it('should complete the reservation', () => {
+    dataService.login({ username: 'username', passwd: 'password'});
+    spyOn(dataService, 'makeReservation').and.callThrough();
+    component.makeReservation(0, '20:30:00');
+    expect(dataService.makeReservation).toHaveBeenCalled();
+    dataService.logout();
+  });
+
 });
