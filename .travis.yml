@@ -8,7 +8,7 @@ dist: trusty # needs Ubuntu Trusty
 sudo: required
 
 addons:
-  chrome: beta
+  chrome: stable
 
 apt:
   sources:
