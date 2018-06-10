@@ -1,11 +1,9 @@
 .DS_STORE
 
 coverage/
-e2e/
 
 /dist/
 bazel-*
-e2e_test.*
 node_modules
 bower_components
 tools/gulp-tasks/cldr/cldr-data/

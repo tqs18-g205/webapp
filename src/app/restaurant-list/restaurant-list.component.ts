@@ -42,22 +42,6 @@ export class RestaurantListComponent implements OnInit {
       });
   }
 
-  makeReservation(restaurant_id: number, hour: string): void {
-    const client_id = localStorage.getItem('currentUser');
-    const now = new Date();
-    const day = now.getDate();
-    const month = now.getMonth() + 1;
-    const year = now.getFullYear();
-    const date = day + '-' + month + '-' + year;
-    const model = <ReservationModel>{
-      cliente: +client_id,
-      restaurante: restaurant_id,
-      data: date,
-      hora: hour
-    };
-    this.restaurant_service.makeReservation(model).subscribe();
-  }
-
   updateModal(restaurant_id: number): void {
     this.restaurant_service.getRestaurant(restaurant_id)
       .subscribe(newrestaurant => {
@@ -111,5 +95,22 @@ export class RestaurantListComponent implements OnInit {
         );
     }
   }
+
+  makeReservation(restaurant_id: number, hour: string): void {
+    const client_id = localStorage.getItem('currentUser');
+    const now = new Date();
+    const day = now.getDate();
+    const month = now.getMonth() + 1;
+    const year = now.getFullYear();
+    const date = day + '-' + month + '-' + year;
+    const model = <ReservationModel>{
+      cliente: +client_id,
+      restaurante: restaurant_id,
+      data: date,
+      hora: hour
+    };
+    this.restaurant_service.makeReservation(model).subscribe();
+  }
+
 
 }

@@ -37,9 +37,9 @@
       <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
         <div *ngIf="orders" class="row">
           <div class="col-sm-12 col-md-12 col-lg-4" *ngFor="let ord of orders;">
-            <div class="card" style="margin-bottom: 15%; margin-right: 10%" data-toggle="tooltip" data-placement="left">
+            <div class="card order-card" style="margin-bottom: 15%; margin-right: 10%" data-toggle="tooltip" data-placement="left">
               <div class="card-header">
-                <strong>{{ord?.id}}: {{ord?.total}}€</strong>
+                <strong class="order_id-price">{{ord?.id}}: {{ord?.total}}€</strong>
               </div>
               <div class="card-body">
                 <p *ngFor="let prato of ord?.pratos;">

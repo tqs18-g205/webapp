@@ -10,18 +10,18 @@
 
     <ul class="navbar-nav mr-auto">
       <li *ngFor="let page of pages" class="nav-item">
-        <a class="nav-link" href="/{{ page.link }}">{{ page.name }}
+        <a id="{{ page.link }}-page_btn" class="nav-link" href="/{{ page.link }}">{{ page.name }}
           <span class="sr-only">(current)</span>
         </a>
       </li>
     </ul>
 
     
-    <a *ngIf="!client" class="nav-link btn btn-sm btn-light" href="/login">Login</a>
-    <a *ngIf="client" class="nav-link btn btn-sm btn-light" (click)="logout()">Logout</a>
-    <a *ngIf="client" class="nav-link btn btn-sm btn-light" href="/client">{{ client.nome }}</a>
+    <a *ngIf="!client" id="login_btn" class="nav-link btn btn-sm btn-light" href="/login">Login</a>
+    <a *ngIf="client" id="logout_btn" class="nav-link btn btn-sm btn-light" (click)="logout()">Logout</a>
+    <a *ngIf="client" id="user_btn" class="nav-link btn btn-sm btn-light" href="/client">{{ client.nome }}</a>
 
-    <a class="nav-link btn btn-sm btn-success" href="/cart">Cart ({{ itemsInCart }} items)</a>
+    <a id="cart_btn" class="nav-link btn btn-sm btn-success" href="/cart">Cart ({{ itemsInCart }} items)</a>
 
   </div>
 </nav>

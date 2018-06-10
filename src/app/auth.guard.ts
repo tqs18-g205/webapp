@@ -10,7 +10,7 @@ export class AuthGuard implements CanActivate {
     private dataService: DataService) { }
 
   canActivate() {
-    if (!this.dataService.loggedIn()) {
+    if (this.dataService.loggedIn()) {
       return true;
      }
 

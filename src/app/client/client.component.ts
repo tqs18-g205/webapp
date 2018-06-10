@@ -13,19 +13,19 @@ export class ClientComponent implements OnInit {
   reservations: Reservation[];
   orders: Order[];
 
-  constructor(private reservation_service: DataService) { }
+  constructor(private service: DataService) { }
 
   ngOnInit() {
     const userId = localStorage.getItem('currentUser');
-    this.reservation_service.getReservations(+userId)
+    this.service.getReservations(+userId)
       .subscribe(reservations => {
         this.reservations = reservations;
       });
-    this.reservation_service.getOrders(+userId)
+    this.service.getOrders(+userId)
       .subscribe(orders => {
         this.orders = orders;
       });
-    this.reservation_service.getClient(+userId)
+    this.service.getClient(+userId)
       .subscribe(client => {
         this.client = client;
       });

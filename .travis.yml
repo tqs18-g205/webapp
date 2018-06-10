@@ -35,6 +35,7 @@ before_script:
 
 script:
   - ng test --code-coverage --watch=false
+  - ng e2e
   - ng build --prod
   - sonar-scanner
   

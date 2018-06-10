@@ -1,6 +1,7 @@
-import { Client, Plate } from './../_models';
+import { Client, Plate, Cart } from './../_models';
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../_services';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -17,27 +18,30 @@ export class NavbarComponent implements OnInit {
   client: Client;
   itemsInCart = 0;
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService,
+    private router: Router) { }
 
   ngOnInit() {
     const client = this.dataService.getCurrentClient();
-    if (client) {
-      client.subscribe(
-        currUser => { this.client = currUser; }
-      );
+    if (client !== null) {
+      client.subscribe(currUser => {
+        this.client = currUser;
+      });
     }
 
-    const cart: Map<number, number> = this.dataService.getCurrentCart();
-    for (let i = 1; i < 20; i++) {
-      if (cart[i]) {
-        this.itemsInCart += cart[i];
-      }
+    const cart: Cart = this.dataService.getCurrentCart();
+    for (const cartPlate of cart.plates) {
+      this.dataService.getPlate(cartPlate.id).subscribe(
+        plate => {
+          this.itemsInCart += cartPlate.quantity;
+        }
+      );
     }
   }
 
   logout() {
     this.dataService.logout();
-    window.location.href = '/';
+    this.router.navigate(['/']);
   }
 
 }
