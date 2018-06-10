@@ -7,9 +7,6 @@ node_js:
 dist: trusty # needs Ubuntu Trusty
 sudo: required
 
-addons:
-  chrome: stable
-
 apt:
   sources:
     - google-chrome
